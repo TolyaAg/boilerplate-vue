@@ -1,0 +1,25 @@
+{
+  "name": "vue-bolerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-server": "webpack-dev-server --env=dev --progress --profile --colors --open",
+    "prod": "webpack --env=prod --progress --profile --colors"
+  },
+  "author": "TolyaAg",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^2.3.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.5.1",
+    "vue-loader": "^12.2.1",
+    "vue-template-compiler": "^2.3.3",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.4.5"
+  }
+}
