@@ -9,7 +9,7 @@
 export default {
   name: 'todo',
   props: {
-    todo: Array,
+    todo: Object,
     text: String
   }
 }
