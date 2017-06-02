@@ -8,9 +8,7 @@
       </li>
     </ol>
     <button v-on:click="reverseMessage">Обратить порядок букв в сообщении</button>
-    <input v-model="message">
-</div>
-
+    <input v-model="message"/>
   </div>
 </template>
 
