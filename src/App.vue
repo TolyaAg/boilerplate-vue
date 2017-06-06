@@ -2,7 +2,7 @@
   <div id="app" class="app">
     <div class="title">Контроль причин необученности сотрудников</div>
     <div class="container">
-      <select-item placeholder="Выберите учебную программу" :items="items"/>
+      <select-item placeholder="Выберите учебную программу"/>
     </div>
   </div>
 </template>
@@ -14,7 +14,6 @@ export default {
   name: 'app',
   data () {
     return {
-      items: [ { id: 0, info: {name: "Tolya", subdiv: "study"} }, { id: 1, info: {name: "Savva", subdiv: "not_study"} }, { id: 2, info: {name: "Damir", subdiv: "not_study"} } ]
     }
   },
   computed: {

@@ -14,13 +14,13 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
+import { mapState } from 'vuex';
 
 export default {
   mixins: [ clickaway ],
   name: 'select-item',
   props: {
-    placeholder: { type: String, default: "Placeholder не задан" },
-    items: { type: Array, default: [] }
+    placeholder: { type: String, default: "Placeholder не задан" }
   },
   data () {
     return {
@@ -28,6 +28,9 @@ export default {
       selectedItem: null
     }
   },
+  computed: mapState([
+      'items'
+      ]),
   methods: {
     away() {
       this.selected = false;
