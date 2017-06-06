@@ -8,7 +8,7 @@
       <ul class="select-content" v-if="selected">
         <li class="select-item" v-for="item in items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
       </ul>
-  </transition>
+    </transition>
   </div>
 </template>
 
