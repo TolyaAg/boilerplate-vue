@@ -1,6 +1,6 @@
 <template>
   <li>
-    {{ todo.text }} {{ text }} 
+    <input v-model="todo.text"/> {{text}}
     <button @click="$emit('pick')">Delete</button>
   </li>
 </template>
@@ -10,7 +10,7 @@ export default {
   name: 'todo',
   props: {
     todo: Object,
-    text: String
+    text: {type:String, default: "No Text"}
   }
 }
 </script>

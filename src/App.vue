@@ -1,65 +1,49 @@
 <template>
-  <div id="app">
-    <h1>Изначальное сообщение: {{ message }}</h1>
-    <h1>Перевернутое сообщение: {{ reversedMessage }}</h1>
-    <p v-if="seen">Сейчас меня видно</p>
-    <ol v-if="todos.length > 0">
-      <todo
-        v-for="(todo, index) of todos"
-        :key="index"
-        :todo="todo"
-        :text="'Hello'"
-        @pick="todos.splice(index,1)">
-      </todo>
-    </ol>
-    <button :disabled=false @click.stop="reverseMessage">Обратить порядок букв в сообщении</button>
-    <input v-model="message"/>
-    <br>
-    <button @click="seen = !seen">Изменить видимость</button>
-    <br>
-    <input type="radio" id="one" value=true v-model="picked">
-    <label for="one">One</label>
-    <br>
-    <input type="radio" id="two" value=false v-model="picked">
-    <label for="two">Two</label>
-    <br>
-    <span>Выбрано: {{ picked }}</span>
+  <div id="app" class="app">
+    <div class="title">Контроль причин необученности сотрудников</div>
+    <div class="container">
+      <select-item placeholder="Выберите учебную программу" :items="items"/>
+    </div>
   </div>
 </template>
 
 <script>
-import todo from './components/ToDo';
+import SelectItem from './components/SelectItem';
 
 export default {
   name: 'app',
   data () {
     return {
-      message: 'Welcome to Your Vue.js',
-      seen: true,
-      todos: [
-        { id: 1, text: 'Посадить дерево' },
-        { id: 2, text: 'Построить дом' },
-        { id: 3, text: 'Вырастить сына' }
-      ],
-      picked: '',
-      
-      changeShow: () => {
-        this.seen = !this.seen;
-      }
+      items: [ { id: 0, info: {name: "Tolya", subdiv: "study"} }, { id: 1, info: {name: "Savva", subdiv: "not_study"} }, { id: 2, info: {name: "Damir", subdiv: "not_study"} } ]
     }
   },
   computed: {
-    reversedMessage () {
-      return this.message.split('').reverse().join('')
-    }
   },
   methods: {
-    reverseMessage () {
-      this.message = this.message.split('').reverse().join('')
-    }
   },
   components: {
-    todo
+    SelectItem
   }
 }
 </script>
+
+<style lang="scss">
+  .app {
+    box-shadow: 2px 2px 10px 0 #979797;
+    font-family: Circular,Helvetica Neue,Helvetica,Arial,sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    .title {
+      background-color: #646464;
+      line-height: 60px;
+      color: #fff;
+      padding-left: 8px;
+    }
+
+    .container {
+      height: 200px;
+      padding: 8px;
+    }
+  }
+</style>

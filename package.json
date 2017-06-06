@@ -6,13 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --env=dev --progress --profile --colors --open",
+    "dev": "cross-env NODE_ENV=development webpack --env=dev --progress --profile --colors",
     "prod": "cross-env NODE_ENV=production webpack --env=prod --progress --profile --colors"
   },
   "author": "TolyaAg",
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
-    "vue": "^2.3.3"
+    "vue": "^2.3.3",
+    "vue-clickaway": "^2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -20,6 +22,9 @@
     "babel-preset-env": "^1.5.1",
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.4",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.5",
     "vue-loader": "^12.2.1",
     "vue-template-compiler": "^2.3.3",
     "webpack": "^2.6.1",

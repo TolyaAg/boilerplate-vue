@@ -1,8 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-    entry: './src/main.js',
+    entry: { 'app': './src/main.js' },
     output: {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/',
@@ -17,7 +18,15 @@ module.exports = {
         rules: [
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: 'vue-loader',
+                options: {
+                  loaders: {
+                    scss: ExtractTextPlugin.extract({
+                      use: ['css-loader', 'sass-loader'],
+                      fallback: 'vue-style-loader'
+                    })
+                  }
+                }
             },
             {
                 test: /.\js$/,
@@ -42,14 +51,16 @@ module.exports = {
         watchOptions: {
             aggregateTimeout: 300,
             poll: 1000
-        }
+        },
+        contentBase: path.resolve(__dirname, './dist')
     },
 
     devtool: 'source-map',
 
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new ExtractTextPlugin("./style/style.css")
     ]
-    
+
 }
