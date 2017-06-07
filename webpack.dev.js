@@ -20,12 +20,13 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
-                  loaders: {
-                    scss: ExtractTextPlugin.extract({
-                      use: ['css-loader', 'sass-loader'],
-                      fallback: 'vue-style-loader'
-                    })
-                  }
+                    extractCSS: true,
+                    loaders: {
+                        scss: ExtractTextPlugin.extract({
+                            use: ['css-loader', 'sass-loader'],
+                            fallback: 'vue-style-loader'
+                        })
+                    }
                 }
             },
             {

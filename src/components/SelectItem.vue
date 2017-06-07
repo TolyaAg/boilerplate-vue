@@ -2,11 +2,16 @@
   <div class="select-container" v-on-clickaway="away">
     <div :class="[ 'select-arrow', {'select-arrow--select': selected} ]" @click="selected = true"></div>
     <div :class="[ 'select-tags', {'select-tags--select': selected} ]" @click="selected = true">
-      <input :placeholder="selectedItem ? selectedItem.info.name : placeholder" class="select-input"/>
+      <input 
+        :placeholder="placeholder" 
+        v-model="inputSelect" 
+        class="select-input" 
+        @click="preload('')" 
+        @keypress="preload(inputSelect)"/>
     </div>
     <transition name="fade">
       <ul class="select-content" v-if="selected">
-        <li class="select-item" v-for="item in items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
+        <li class="select-item" v-for="item in items.items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
       </ul>
     </transition>
   </div>
@@ -21,15 +26,15 @@ export default {
   props: {
     placeholder: { type: String, default: "Placeholder не задан" },
     selectedItem: { type: Object, default: null },
-    items: { type: Array, default: [] },
-    save: { type: Function }
+    items: { type: Object, default: () => { items: [] } },
+    save: { type: Function },
+    preload: { type: Function }
   },
   data () {
     return {
-      selected: false
+      selected: false,
+      inputSelect: ''
     }
-  },
-  computed: {
   },
   methods: {
     away() {
@@ -47,6 +52,7 @@ export default {
     selectItem(item) {
       this.save(item);
       this.selected = false;
+      this.inputSelect = item.info.name;
     },
   }
 }
@@ -62,6 +68,7 @@ export default {
     text-align: left;
     position: relative;
     color: #35495e;
+    margin-bottom: 16px;
 
     .select-tags {
       min-height: 40px;

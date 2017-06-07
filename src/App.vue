@@ -2,14 +2,17 @@
   <div id="app" class="app">
     <div class="title">Контроль причин необученности сотрудников</div>
     <div class="container">
-      <select-item placeholder="Выберите учебную программу" :items="itemsProgramm" :selectedItem="selectedProgramm" :save="selectProgramm"/>
+      <select-item placeholder="Выберите учебную программу" :items="itemsProgramm" :selectedItem="selectedProgramm" :save="selectProgramm" :preload="getProgramms"/>
+      <select-item placeholder="Выберите регион" :items="itemsRegion" :selectedItem="selectedRegion" :save="selectRegion" :preload="getRegions"/>
+      <custom-button text="Показать сотрудников"/>
     </div>
   </div>
 </template>
 
 <script>
 import SelectItem from './components/SelectItem';
-import { mapState, mapMutations } from 'vuex';
+import CustomButton from './components/CustomButton';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'app',
@@ -20,16 +23,25 @@ export default {
   computed: {
     ...mapState([
       'selectedProgramm',
-      'itemsProgramm'
+      'itemsProgramm',
+      'selectedRegion',
+      'itemsRegion'
     ])
   },
   methods: {
     ...mapMutations([
-      'selectProgramm'
+      'selectProgramm',
+      'selectRegion'
+    ]),
+
+    ...mapActions([
+      'getProgramms',
+      'getRegions'
     ])
   },
   components: {
-    SelectItem
+    SelectItem,
+    CustomButton
   }
 }
 </script>
