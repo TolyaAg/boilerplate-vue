@@ -2,13 +2,14 @@
   <div id="app" class="app">
     <div class="title">Контроль причин необученности сотрудников</div>
     <div class="container">
-      <select-item placeholder="Выберите учебную программу"/>
+      <select-item placeholder="Выберите учебную программу" :items="itemsProgramm" :selectedItem="selectedProgramm" :save="selectProgramm"/>
     </div>
   </div>
 </template>
 
 <script>
 import SelectItem from './components/SelectItem';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'app',
@@ -17,8 +18,15 @@ export default {
     }
   },
   computed: {
+    ...mapState([
+      'selectedProgramm',
+      'itemsProgramm'
+    ])
   },
   methods: {
+    ...mapMutations([
+      'selectProgramm'
+    ])
   },
   components: {
     SelectItem
