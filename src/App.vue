@@ -4,7 +4,7 @@
     <div class="container">
       <select-item placeholder="Выберите учебную программу" :items="itemsProgramm" :selectedItem="selectedProgramm" :save="selectProgramm" :preload="getProgramms"/>
       <select-item placeholder="Выберите регион" :items="itemsRegion" :selectedItem="selectedRegion" :save="selectRegion" :preload="getRegions"/>
-      <custom-button text="Показать сотрудников"/>
+      <custom-button text="Показать сотрудников" :action="simpleAction"/>
     </div>
   </div>
 </template>
@@ -29,6 +29,9 @@ export default {
     ])
   },
   methods: {
+    simpleAction() {
+      alert("Click");
+    },
     ...mapMutations([
       'selectProgramm',
       'selectRegion'

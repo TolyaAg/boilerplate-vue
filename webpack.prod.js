@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {'app': './src/main.js'},
@@ -58,7 +59,12 @@ module.exports = {
             minimize: true,
             debug:false
         }),
-        new ExtractTextPlugin("./style/style.css")
+        new ExtractTextPlugin("./style/style.css"),
+        new HtmlWebpackPlugin({
+            title: "Vue app",
+            hash: true,
+            template: "./src/index.html"
+        })
     ]
 
 }
