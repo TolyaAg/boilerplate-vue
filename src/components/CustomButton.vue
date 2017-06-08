@@ -1,5 +1,11 @@
 <template>
-	<button :class="[ 'custom-button', { 'custom-button--selected': selected } ]" @click="action" @mousedown="selected = true" @mouseup="selected = false">{{ text }}</button>
+	<button 
+		:class="[ 'custom-button', { 'custom-button--selected': selected } ]" 
+		@click="action" 
+		@mousedown="selected = true" 
+		@mouseup="selected = false">
+			{{ text }}
+	</button>
 </template>
 
 <script>

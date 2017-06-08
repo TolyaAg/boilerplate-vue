@@ -7,11 +7,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        selectedProgramm: null,
+        selectedProgramm: {},
         itemsProgramm: { items: [] },
         error: '',
-        selectedRegion: null,
+        selectedRegion: {},
         itemsRegion: { items: [] },
+        collabs: []
     },
 
     mutations: {
@@ -21,6 +22,10 @@ export default new Vuex.Store({
 
         getProgramms(state, programms) {
             state.itemsProgramm = programms;
+        },
+
+        getCollabs(state, collabs) {
+            state.collabs = collabs;
         },
 
         getError(state, error) {
@@ -34,6 +39,10 @@ export default new Vuex.Store({
         getRegions(state, regions) {
             state.itemsRegion = regions;
         },
+
+        closeError(state) {
+            state.error = ''
+        }
     },
 
     actions: {
@@ -59,6 +68,20 @@ export default new Vuex.Store({
                     commit('getError', data.error);
                 } else {
                     commit('getRegions', data);
+              }
+            });
+        },
+
+        getCollabs({ commit, state }) {
+            const urlPath = url.createPath({ server_name: 'notStudy', action_name: 'Collabs' });
+            const { selectedProgramm: {id: programm_id = ''} = {}, selectedRegion: {id: region_id = ''} = {} } = state;
+            getAxios(urlPath, { programm_id, region_id })
+            .then(resp => resp.data)
+            .then(data => {
+                if (data.error) {
+                    commit('getError', data.error);
+                } else {
+                    commit('getCollabs', data);
               }
             });
         }

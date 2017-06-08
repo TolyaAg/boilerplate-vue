@@ -4,7 +4,8 @@
     <div class="container">
       <select-item placeholder="Выберите учебную программу" :items="itemsProgramm" :selectedItem="selectedProgramm" :save="selectProgramm" :preload="getProgramms"/>
       <select-item placeholder="Выберите регион" :items="itemsRegion" :selectedItem="selectedRegion" :save="selectRegion" :preload="getRegions"/>
-      <custom-button text="Показать сотрудников" :action="simpleAction"/>
+      <custom-button text="Показать сотрудников" :action="getCollabs"/>
+      <alert-warning v-if="error !=''" :text="error" :close="closeError"/>
     </div>
   </div>
 </template>
@@ -12,6 +13,7 @@
 <script>
 import SelectItem from './components/SelectItem';
 import CustomButton from './components/CustomButton';
+import AlertWarning from './components/AlertWarning';
 import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
@@ -25,26 +27,27 @@ export default {
       'selectedProgramm',
       'itemsProgramm',
       'selectedRegion',
-      'itemsRegion'
+      'itemsRegion',
+      'error'
     ])
   },
   methods: {
-    simpleAction() {
-      alert("Click");
-    },
     ...mapMutations([
       'selectProgramm',
-      'selectRegion'
+      'selectRegion',
+      'closeError'
     ]),
 
     ...mapActions([
       'getProgramms',
-      'getRegions'
+      'getRegions',
+      'getCollabs'
     ])
   },
   components: {
     SelectItem,
-    CustomButton
+    CustomButton,
+    AlertWarning
   }
 }
 </script>

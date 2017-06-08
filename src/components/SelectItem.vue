@@ -4,10 +4,11 @@
     <div :class="[ 'select-tags', {'select-tags--select': selected} ]" @click="selected = true">
       <input 
         :placeholder="placeholder" 
-        v-model="inputSelect" 
+        v-model="inputSelect"
         class="select-input" 
         @click="preload('')" 
-        @keypress="preload(inputSelect)"/>
+        @keyup="preload(inputSelect)"
+        />
     </div>
     <transition name="fade">
       <ul class="select-content" v-if="selected">
@@ -38,6 +39,14 @@ export default {
   },
   methods: {
     away() {
+      if (this.selectedItem == {}) {
+        this.inputSelect = "";
+      } else if (this.inputSelect == "") {
+        this.save({})
+      } else if (this.inputSelect != this.selectedItem.info.name) {
+        this.inputSelect = this.selectedItem.info.name
+      }
+
       this.selected = false;
     },
 
@@ -53,7 +62,7 @@ export default {
       this.save(item);
       this.selected = false;
       this.inputSelect = item.info.name;
-    },
+    }
   }
 }
 </script>
