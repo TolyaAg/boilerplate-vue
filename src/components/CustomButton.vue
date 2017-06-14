@@ -1,7 +1,7 @@
 <template>
 	<button 
 		:class="[ 'custom-button', { 'custom-button--selected': selected } ]" 
-		@click="action" 
+		@click="click" 
 		@mousedown="selected = true" 
 		@mouseup="selected = false">
 			{{ text }}
@@ -18,7 +18,13 @@ export default {
 	},
 	props: {
 		text: { type: String, default: '' },
-		action: { type: Function }
+		action: { type: Function },
+		item: { type: String, default: null}
+	},
+	methods: {
+		click() {
+			this.action(this.item);
+		}
 	}
 }
 </script>

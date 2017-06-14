@@ -81,7 +81,7 @@ export default new Vuex.Store({
                 if (data.error) {
                     commit('getError', data.error);
                 } else {
-                    commit('getCollabs', data);
+                    commit('getCollabs', data.data);
               }
             });
         }

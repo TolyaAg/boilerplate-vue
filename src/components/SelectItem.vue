@@ -2,11 +2,12 @@
   <div class="select-container" v-on-clickaway="away">
     <div :class="[ 'select-arrow', {'select-arrow--select': selected} ]" @click="selected = true"></div>
     <div :class="[ 'select-tags', {'select-tags--select': selected} ]" @click="selected = true">
-      <input 
-        :placeholder="placeholder" 
+      <input
+        type="text"
+        :placeholder="placeholder"
         v-model="inputSelect"
-        class="select-input" 
-        @click="preload('')" 
+        class="select-input"
+        @click="preload(inputSelect)"
         @keyup="preload(inputSelect)"
         />
     </div>
@@ -20,13 +21,14 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
+import _ from 'lodash';
 
 export default {
   mixins: [ clickaway ],
   name: 'select-item',
   props: {
-    placeholder: { type: String, default: "Placeholder не задан" },
-    selectedItem: { type: Object, default: null },
+    placeholder: { type: String, default: () => "Placeholder не задан" },
+    selectedItem: { type: Object, default: () => {} },
     items: { type: Object, default: () => { items: [] } },
     save: { type: Function },
     preload: { type: Function }
@@ -39,7 +41,7 @@ export default {
   },
   methods: {
     away() {
-      if (this.selectedItem == {}) {
+      if (_.isEqual(this.selectedItem, {})) {
         this.inputSelect = "";
       } else if (this.inputSelect == "") {
         this.save({})
@@ -96,6 +98,7 @@ export default {
     .select-input {
       position: relative;
       display: inline-block;
+      font-family: sans-serif;
       width: 100%;
       min-height: 20px;
       line-height: 20px;

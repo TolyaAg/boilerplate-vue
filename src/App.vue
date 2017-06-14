@@ -1,13 +1,36 @@
 <template>
-  <div id="app" class="app">
-    <div class="title">Контроль причин необученности сотрудников</div>
-    <div class="container">
-      <select-item placeholder="Выберите учебную программу" :items="itemsProgramm" :selectedItem="selectedProgramm" :save="selectProgramm" :preload="getProgramms"/>
-      <select-item placeholder="Выберите регион" :items="itemsRegion" :selectedItem="selectedRegion" :save="selectRegion" :preload="getRegions"/>
-      <custom-button text="Показать сотрудников" :action="getCollabs"/>
-      <alert-warning v-if="error !=''" :text="error" :close="closeError"/>
+    <div id="app" class="app">
+        <div class="title">Контроль причин необученности сотрудников</div>
+        <div class="container">
+            <select-item placeholder="Выберите учебную программу" :items="itemsProgramm" :selectedItem="selectedProgramm" :save="selectProgramm" :preload="getProgramms"/>
+            <select-item placeholder="Выберите регион" :items="itemsRegion" :selectedItem="selectedRegion" :save="selectRegion" :preload="getRegions"/>
+            <custom-button text="Показать сотрудников" :action="getCollabs"/>
+            <alert-warning :text="error" :close="closeError"/>
+            <transition name="items">
+                <ul class="container__collabs-list" v-show="collabs.length > 0">
+                    <li v-for="collab in collabs" class="collabs-list__item">
+                        <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0'}">{{collab.info.name}}</div>
+                        <div :style="{width: 100 / 3 - 1 + '%', display: 'inline-block', margin: '8px 0'}">{{collab.info.delay}}</div>
+                        <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0'}"><custom-button text="Указать причину" :item="collab.id" :action="openCommentWindow"/></div>
+                    </li>
+                </ul>
+            </transition>
+        </div>
+        <transition name="modal">
+            <div class="modal" v-show="enterComment">
+                <div class="modal__enter-comment">
+                    <div class="modal__enter-comment__title">
+                        Укажите причину
+                        <button class="close-button" @click="closeCommentWindow">&times;</button>
+                    </div>
+                    <div class="modal__enter-comment__container">
+                        <textarea v-model="reason" autofocus="true" class="textarea-input" placeholder="Напишите причину"></textarea>
+                        <custom-button text="Внести причину" :action="enterReason"/>
+                    </div>
+                </div>
+            </div>
+        </transition>
     </div>
-  </div>
 </template>
 
 <script>
@@ -17,58 +40,132 @@ import AlertWarning from './components/AlertWarning';
 import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
-  name: 'app',
-  data () {
-    return {
-    }
-  },
-  computed: {
-    ...mapState([
-      'selectedProgramm',
-      'itemsProgramm',
-      'selectedRegion',
-      'itemsRegion',
-      'error'
-    ])
-  },
-  methods: {
-    ...mapMutations([
-      'selectProgramm',
-      'selectRegion',
-      'closeError'
-    ]),
+    name: 'app',
+    data () {
+        return {
+            enterComment: false,
+            reason: '',
+            adaptId: ''
+        }
+    },
+    computed: {
+        ...mapState([
+            'selectedProgramm',
+            'itemsProgramm',
+            'selectedRegion',
+            'itemsRegion',
+            'error',
+            'collabs'
+        ])
+    },
+    methods: {
+        ...mapMutations([
+            'selectProgramm',
+            'selectRegion',
+            'closeError'
+        ]),
 
-    ...mapActions([
-      'getProgramms',
-      'getRegions',
-      'getCollabs'
-    ])
-  },
-  components: {
-    SelectItem,
-    CustomButton,
-    AlertWarning
-  }
+        ...mapActions([
+            'getProgramms',
+            'getRegions',
+            'getCollabs'
+        ]),
+
+        openCommentWindow(adaptId) {
+            this.adaptId = adaptId;
+            this.enterComment = true;
+        },
+
+        closeCommentWindow() {
+            this.reason = '';
+            this.adaptId = '';
+            this.enterComment = false;
+        },
+
+        enterReason() {
+            this.reason = '';
+            this.adaptId = '';
+            this.enterComment = false;
+        }
+    },
+    components: {
+        SelectItem,
+        CustomButton,
+        AlertWarning
+    }
 }
 </script>
 
+<style src="./styles/styles.css"></style>
+
 <style lang="scss">
-  .app {
-    box-shadow: 2px 2px 10px 0 #979797;
-    font-family: Circular,Helvetica Neue,Helvetica,Arial,sans-serif;
-    max-width: 1000px;
-    margin: 0 auto;
 
-    .title {
-      background-color: #646464;
-      line-height: 60px;
-      color: #fff;
-      padding-left: 8px;
+.items-enter-active {
+    transition: max-height .8s ease-in-out
+}
+
+.items-enter /* .fade-leave-active для <2.1.8 */ {
+    max-height: 0px !important;
+}
+
+.container {
+    padding: 8px;
+    transition: max-height .8s ease-in-out;
+    position: relative;
+
+    .container__collabs-list {
+        overflow: auto;
+        list-style: none;
+        padding: 0;
+        width: 100%;
+        background: #fff;
+        color: #35495e;
+        max-height: 600px;
+
+        .collabs-list__item {
+            text-align: center;
+            border: 0px;
+            border-radius: 4px;
+
+            &:hover {
+                color: #fff;
+                background-color: #999;
+            }
+        }
+    }
+}
+
+.modal__enter-comment {
+    width: 50%;
+    background-color: #fff;
+    margin: 20% auto;
+    box-shadow: 2px 2px 10px 0 #646464;
+    border-radius: 5px;
+    border: 0;
+
+    .modal__enter-comment__title {
+        background-color: #646464;
+        color: #fff;
+        padding: 10px 0 10px 8px;
+        font-size: 14px;
     }
 
-    .container {
-      height: 200px;
-      padding: 8px;
+    .modal__enter-comment__container {
+        padding: 8px;
+
+        .textarea-input {
+            width: 100%;
+            box-sizing: border-box;
+            resize: none;
+            outline: 0;
+            border-radius: 4px;
+            min-height: 150px;
+            margin-bottom: 8px;
+            font-family: sans-serif;
+            overflow: hidden;
+            border-width: 1px;
+            border-color: #a9a9a9;
+        }
     }
-  }
+}
 </style>

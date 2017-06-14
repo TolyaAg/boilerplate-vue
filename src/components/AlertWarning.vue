@@ -1,5 +1,5 @@
 <template>
-	<div class="alert">
+	<div class="alert" v-if="text != ''">
 		{{ text }}
 		<button class="close-button" @click="close">&times;</button>
 	</div>
