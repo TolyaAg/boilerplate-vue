@@ -11,7 +11,7 @@
                     <li v-for="collab in collabs" class="collabs-list__item">
                         <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0'}">{{collab.info.name}}</div>
                         <div :style="{width: 100 / 3 - 1 + '%', display: 'inline-block', margin: '8px 0'}">{{collab.info.delay}}</div>
-                        <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0'}"><custom-button text="Указать причину" :item="collab.id" :action="openCommentWindow"/></div>
+                        <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0'}"><enter-reason-button text="Указать причину" :adaptId="collab.id" :action="openCommentWindow"/></div>
                     </li>
                 </ul>
             </transition>
@@ -36,6 +36,7 @@
 <script>
 import SelectItem from './components/SelectItem';
 import CustomButton from './components/CustomButton';
+import EnterReasonButton from './components/special/EnterReasonButton';
 import AlertWarning from './components/AlertWarning';
 import { mapState, mapMutations, mapActions } from 'vuex';
 
@@ -44,8 +45,7 @@ export default {
     data () {
         return {
             enterComment: false,
-            reason: '',
-            adaptId: ''
+            reason: ''
         }
     },
     computed: {
@@ -71,27 +71,23 @@ export default {
             'getCollabs'
         ]),
 
-        openCommentWindow(adaptId) {
-            this.adaptId = adaptId;
+        openCommentWindow() {
             this.enterComment = true;
         },
 
         closeCommentWindow() {
-            this.reason = '';
-            this.adaptId = '';
             this.enterComment = false;
         },
 
         enterReason() {
-            this.reason = '';
-            this.adaptId = '';
             this.enterComment = false;
         }
     },
     components: {
         SelectItem,
         CustomButton,
-        AlertWarning
+        AlertWarning,
+        EnterReasonButton
     }
 }
 </script>

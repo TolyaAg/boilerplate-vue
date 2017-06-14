@@ -12,7 +12,9 @@ export default new Vuex.Store({
         error: '',
         selectedRegion: {},
         itemsRegion: { items: [] },
-        collabs: []
+        collabs: [],
+        reason: '',
+        adaptId: ''
     },
 
     mutations: {
@@ -42,6 +44,14 @@ export default new Vuex.Store({
 
         closeError(state) {
             state.error = ''
+        },
+
+        enterReason(state, reason) {
+            state.reason = reason;
+        },
+
+        selectAdapt(state, adaptId) {
+            state.adaptId = adaptId;
         }
     },
 

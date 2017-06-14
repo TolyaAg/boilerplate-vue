@@ -1,7 +1,7 @@
 <template>
     <button 
         :class="[ 'custom-button', { 'custom-button--selected': selected } ]" 
-        @click="action" 
+        @click="click" 
         @mousedown="selected = true" 
         @mouseup="selected = false">
             {{ text }}
@@ -9,8 +9,10 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
-    name: "custom-button",
+    name: "enter-reason-button",
     data() {
         return {
             selected: false
@@ -18,9 +20,17 @@ export default {
     },
     props: {
         text: { type: String, default: '' },
-        action: { type: Function }
+        action: { type: Function },
+        adaptId: { type: String, default: ''}
     },
     methods: {
+        ...mapMutations([
+            'selectAdapt'
+        ]),
+        click() {
+            this.selectAdapt(this.adaptId);
+            this.action();
+        }
     }
 }
 </script>

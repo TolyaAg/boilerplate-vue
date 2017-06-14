@@ -59,7 +59,7 @@ module.exports = {
             aggregateTimeout: 300,
             poll: 1000
         },
-        contentBase: path.resolve(__dirname, './dist')
+        contentBase: path.join(__dirname, './dist')
     },
 
     devtool: 'source-map',
