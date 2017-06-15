@@ -1,42 +1,27 @@
-import uuid from './uuid';
+const routerId = '6385385939497347608';
 
-const servers = [];
+const templates = [];
 
-/*
-	srv: {id: 1, name: 'test'}
-*/
-function Server(srv){
-	const id  = srv.id || uuid();
-	const name = srv.name || `name_${srv.id}`;
-	let actions = [];
+addTemp({ id: '6423618230641905130', name: 'notStudy' });
 
-	this.addActions = _actions => {
-		actions = actions.concat((_actions || []));
-		return this;
-	};
-
-	this.getId = () => {
-		return id;
-	};
-
-	this.getName = () => {
-		return name;
-	};
-
-	this.getActions = () => {
-		return actions;
-	};
-}
-
-export function addServer(srv){
-	if (typeof srv !== 'object'){
+function addTemp(temp){
+	if (typeof temp !== 'object'){
 		throw TypeError('Argument must be an object like this \r\n "{id: 1, name: \'Test\'}"');
 	}
-	const server = new Server(srv);
-	servers.push(server);
-	return server;
+
+	templates.push(temp);
 }
 
 export function getAll(){
-	return servers;
+	return templates
+}
+
+export const getTemplate = (name, action) => {
+	const temps = templates.filter(temp => {
+		return temp.name == name;
+	})
+
+	const temp = temps[0];
+
+	return temp != null ? { object_id: routerId, server_id: temp.id, server_name: temp.name, action_name: action } : null;
 }

@@ -68,7 +68,8 @@ export default {
         ...mapActions([
             'getProgramms',
             'getRegions',
-            'getCollabs'
+            'getCollabs',
+            'postReason'
         ]),
 
         openCommentWindow() {
@@ -80,7 +81,9 @@ export default {
         },
 
         enterReason() {
+            this.postReason(this.reason);
             this.enterComment = false;
+            this.reason = '';
         }
     },
     components: {

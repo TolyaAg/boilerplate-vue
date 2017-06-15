@@ -1,60 +1,50 @@
+import Vue from 'vue';
+import VueRecource from 'vue-resource';
 import axios from 'axios';
+
+const customBaseUrl = process.env.NODE_ENV === 'production' ? '/custom_web_template.html' : 'http://study.merlion.ru/custom_web_template.html';
+
+Vue.use(VueRecource);
 
 export const  getAxios = (url, params) => {
   return axios({
-    method: 'GET',
+    method: 'get',
     params,
     url,
-    withCredentials: true
+    withCredentials: true,
+    baseURL: customBaseUrl
   });
 };
 
-export function uploadFile(url, file){
-    return new Promise((resolve, reject) => {
-        const xmlHttp = getXmlHttp();
+export const postAxios = (url, params, data) => {
+  return axios({
+    method: 'post',
+    url,
+    withCredentials: true,
+    data,
+    params,
+    baseURL: customBaseUrl
+  });
+};
 
-        xmlHttp.onreadystatechange = () => {
-            if (xmlHttp.readyState === 4) {
-                if (xmlHttp.status === 200){
-                    resolve(xmlHttp.responseText);
-                } else {
-                    console.log(xmlHttp.status);
-                    reject(new Error(xmlHttp.statusText || 'Upload file error'));
-                }
-            }
-        };
-
-        xmlHttp.open('POST', url);
-
-        const formData = new FormData();
-        formData.append('file', file, file.name);
-
-        xmlHttp.send(formData);
-    });
+export const postVue = (url, params, body) => {
+    return Vue.http.post(
+        customBaseUrl, 
+        body, 
+        { 
+            params, 
+            credentials: true,
+            emulateJSON: true
+        }
+    );
 }
 
-export function uploadFiles(url, files) {
-    return new Promise((resolve, reject) => {
-        const xmlHttp = getXmlHttp();
-
-        xmlHttp.onreadystatechange = () => {
-            if (xmlHttp.readyState === 4) {
-                if (xmlHttp.status === 200){
-                    resolve(xmlHttp.responseText);
-                } else {
-                    console.log(xmlHttp.status);
-                    reject(new Error(xmlHttp.statusText || 'Upload file error'));
-                }
-            }
-        };
-
-        xmlHttp.open('POST', url);
-
-        const formData = new FormData();
-        for (let i = files.length - 1; i >= 0; i--) {
-            const file = files[i];
-            formData.append('files[]', file, file.name);
+export const getVue = (url, params) => {
+    return Vue.http.get(
+        customBaseUrl, 
+        { 
+            params, 
+            credentials: true 
         }
-        xmlHttp.send(formData);
-    });
+    );
 }

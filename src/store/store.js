@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import { getAxios } from '../api/ajax';
-import { url } from '../api/config';
+import { getAxios, postAxios, postVue, getVue } from '../api/ajax';
+import { getTemplate } from '../api/servers.js';
 
 Vue.use(Vuex);
 
@@ -57,9 +57,8 @@ export default new Vuex.Store({
 
     actions: {
         getProgramms({ commit }, search) {
-            const urlPath = url.createPath({ server_name: 'notStudy', action_name: 'Programms' });
-            getAxios(urlPath, { search })
-            .then(resp => resp.data)
+            getVue('', { ...getTemplate('notStudy','Programms'), search })
+            .then(resp => resp.body)
             .then(data => {
                 if (data.error) {
                     commit('getError', data.error);
@@ -70,9 +69,8 @@ export default new Vuex.Store({
         },
 
         getRegions({ commit }, search) {
-            const urlPath = url.createPath({ server_name: 'notStudy', action_name: 'Regions' });
-            getAxios(urlPath, { search })
-            .then(resp => resp.data)
+            getVue('', { ...getTemplate('notStudy', 'Regions'), search })
+            .then(resp => resp.body)
             .then(data => {
                 if (data.error) {
                     commit('getError', data.error);
@@ -83,10 +81,9 @@ export default new Vuex.Store({
         },
 
         getCollabs({ commit, state }) {
-            const urlPath = url.createPath({ server_name: 'notStudy', action_name: 'Collabs' });
             const { selectedProgramm: {id: programm_id = ''} = {}, selectedRegion: {id: region_id = ''} = {} } = state;
-            getAxios(urlPath, { programm_id, region_id })
-            .then(resp => resp.data)
+            getVue('', { ...getTemplate('notStudy', 'Collabs'), programm_id, region_id })
+            .then(resp => resp.body)
             .then(data => {
                 if (data.error) {
                     commit('getError', data.error);
@@ -94,6 +91,20 @@ export default new Vuex.Store({
                     commit('getCollabs', data.data);
               }
             });
+        },
+
+        postReason({ commit, state }, reason) {
+            const { adaptId: adapt_id } = state;
+            postVue('', getTemplate('notStudy', 'Reason'), { adapt_id, reason })
+            .then(resp => resp.body)
+            .then(data => {
+                if (data.error) {
+                    commit('getError', data.error);
+                } else {
+                    commit('getSuccess');
+                }
+                commit('selectAdapt', '');
+            })
         }
     }
 })
