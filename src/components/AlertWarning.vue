@@ -15,8 +15,7 @@
 	}
 </script>
 
-<style lang="scss">
-$alert-success-color: #dff0d8;
+<style lang="scss" scoped>
 $alert-danger-color: #f2dede;
 
 	.alert {

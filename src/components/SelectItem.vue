@@ -1,18 +1,17 @@
 <template>
   <div class="select-container" v-on-clickaway="away">
-    <div :class="[ 'select-arrow', {'select-arrow--select': selected} ]" @click="selected = true"></div>
-    <div :class="[ 'select-tags', {'select-tags--select': selected} ]" @click="selected = true">
+    <div :class="[ 'select-arrow', {'select-arrow--select': selected} ]" @click="componentClick"></div>
+    <div :class="[ 'select-tags', {'select-tags--select': selected} ]" @click="componentClick">
       <input
         type="text"
         :placeholder="placeholder"
         v-model="inputSelect"
         class="select-input"
-        @click="preload(inputSelect)"
         @keyup="preload(inputSelect)"
         />
     </div>
     <transition name="fade">
-      <ul class="select-content" v-if="selected">
+      <ul class="select-content" v-show="selected">
         <li class="select-item" v-for="item in items.items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
       </ul>
     </transition>
@@ -64,12 +63,17 @@ export default {
       this.save(item);
       this.selected = false;
       this.inputSelect = item.info.name;
+    },
+
+    componentClick() {
+      this.selected = true;
+      this.preload(this.inputSelect);
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
   .select-container {
     box-sizing: content-box;
@@ -145,11 +149,12 @@ export default {
     }
 
     .fade-enter-active, .fade-leave-active {
-      transition: opacity .2s
+      transition: all .2s ease-in-out;
+      overflow: hidden !important;
     }
 
     .fade-enter, .fade-leave-to /* .fade-leave-active для <2.1.8 */ {
-      opacity: 0
+      max-height: 0px !important;
     }
 
     .select-content {

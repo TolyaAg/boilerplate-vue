@@ -21,14 +21,16 @@ export default {
     props: {
         text: { type: String, default: '' },
         action: { type: Function },
-        adaptId: { type: String, default: ''}
+        adaptId: { type: String, default: '' },
+        oldReason: { type: String, default: '' }
     },
     methods: {
         ...mapMutations([
             'selectAdapt'
         ]),
         click() {
-            this.selectAdapt(this.adaptId);
+            const { adaptId, oldReason } = this;
+            this.selectAdapt({ adaptId, oldReason });
             this.action();
         }
     }

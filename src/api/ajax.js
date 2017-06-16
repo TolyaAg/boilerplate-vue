@@ -27,7 +27,7 @@ export const postAxios = (url, params, data) => {
   });
 };
 
-export const postVue = (url, params, body) => {
+export const postVue = (params, body) => {
     return Vue.http.post(
         customBaseUrl, 
         body, 
@@ -39,7 +39,7 @@ export const postVue = (url, params, body) => {
     );
 }
 
-export const getVue = (url, params) => {
+export const getVue = (params) => {
     return Vue.http.get(
         customBaseUrl, 
         { 

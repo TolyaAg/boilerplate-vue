@@ -10,54 +10,67 @@ export default new Vuex.Store({
         selectedProgramm: {},
         itemsProgramm: { items: [] },
         error: '',
+        success: '',
         selectedRegion: {},
         itemsRegion: { items: [] },
         collabs: [],
         reason: '',
-        adaptId: ''
+        adaptId: '',
+        oldReason: ''
+    },
+
+    getters: {
+        splitReasons: state => {
+            return state.oldReason.split(';');
+        }
     },
 
     mutations: {
-        selectProgramm (state, programm) {
+        selectProgramm: (state, programm) => {
             state.selectedProgramm = programm;
         },
 
-        getProgramms(state, programms) {
+        getProgramms: (state, programms) => {
             state.itemsProgramm = programms;
         },
 
-        getCollabs(state, collabs) {
+        getCollabs: (state, collabs) => {
             state.collabs = collabs;
         },
 
-        getError(state, error) {
+        getError: (state, error) => {
             state.error = error;
         },
 
-        selectRegion (state, region) {
+        getSuccess: (state) => {
+            state.success = "Причина добавлена";
+        },
+
+        selectRegion: (state, region) => {
             state.selectedRegion = region;
         },
 
-        getRegions(state, regions) {
+        getRegions: (state, regions) => {
             state.itemsRegion = regions;
         },
 
-        closeError(state) {
+        closeError: (state) => {
             state.error = ''
         },
 
-        enterReason(state, reason) {
+        enterReason: (state, reason) => {
             state.reason = reason;
         },
 
-        selectAdapt(state, adaptId) {
+        selectAdapt: (state, { adaptId, oldReason  }) => {
             state.adaptId = adaptId;
+            state.oldReason = oldReason;
         }
     },
 
     actions: {
-        getProgramms({ commit }, search) {
-            getVue('', { ...getTemplate('notStudy','Programms'), search })
+        getProgramms: ({ commit }, search) => {
+            getVue({ ...getTemplate('notStudy','Programms'), search })
             .then(resp => resp.body)
             .then(data => {
                 if (data.error) {
@@ -68,8 +81,8 @@ export default new Vuex.Store({
             });
         },
 
-        getRegions({ commit }, search) {
-            getVue('', { ...getTemplate('notStudy', 'Regions'), search })
+        getRegions: ({ commit }, search) => {
+            getVue({ ...getTemplate('notStudy', 'Regions'), search })
             .then(resp => resp.body)
             .then(data => {
                 if (data.error) {
@@ -80,22 +93,22 @@ export default new Vuex.Store({
             });
         },
 
-        getCollabs({ commit, state }) {
-            const { selectedProgramm: {id: programm_id = ''} = {}, selectedRegion: {id: region_id = ''} = {} } = state;
-            getVue('', { ...getTemplate('notStudy', 'Collabs'), programm_id, region_id })
+        getCollabs: ({ commit, state }) => {
+            const { selectedProgramm: {id: programm_id = ''} = {}, selectedRegion: {info: {name: region_name = ''} = {}} = {} } = state;
+            getVue({ ...getTemplate('notStudy', 'Collabs'), programm_id, region_name })
             .then(resp => resp.body)
             .then(data => {
                 if (data.error) {
                     commit('getError', data.error);
                 } else {
                     commit('getCollabs', data.data);
-              }
+                }
             });
         },
 
-        postReason({ commit, state }, reason) {
-            const { adaptId: adapt_id } = state;
-            postVue('', getTemplate('notStudy', 'Reason'), { adapt_id, reason })
+        postReason: ({ commit, state }, reason) => {
+            const { adaptId: adapt_id, selectedProgramm: {id: programm_id = ''} = {} } = state;
+            postVue(getTemplate('notStudy', 'Reason'), { adapt_id, reason, programm_id })
             .then(resp => resp.body)
             .then(data => {
                 if (data.error) {
@@ -103,7 +116,7 @@ export default new Vuex.Store({
                 } else {
                     commit('getSuccess');
                 }
-                commit('selectAdapt', '');
+                commit('selectAdapt', { adaptId: '', oldReason: '' });
             })
         }
     }
