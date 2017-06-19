@@ -5,11 +5,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 module.exports = {
-    entry: { 'app': './src/main.js' },
+    entry: { 
+        'app': './src/main.js',
+        'vue': ['vue']
+    },
     output: {
         path: path.resolve(__dirname, './dist'),
-        publicPath: '/',
-        filename: 'build.js'
+        filename: 'build.js',
+        library: '[name]'
     },
     resolve: {
         modules: ['node_modules'],
@@ -34,6 +37,17 @@ module.exports = {
                         })
                     }
                 }
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }  
+                    }
+                ]
             },
             {
                 test: /.\js$/,
@@ -68,6 +82,10 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new ExtractTextPlugin("./style/style.css"),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vue',
+            filename: 'vue.js'
+        }),
         new HtmlWebpackPlugin({
             title: "Vue app",
             hash: true,

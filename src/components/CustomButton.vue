@@ -5,6 +5,7 @@
         @mousedown="selected = true" 
         @mouseup="selected = false">
             {{ text }}
+            <i class="loading"></i>
     </button>
 </template>
 

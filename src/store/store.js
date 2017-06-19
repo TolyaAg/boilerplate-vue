@@ -42,8 +42,16 @@ export default new Vuex.Store({
             state.error = error;
         },
 
-        getSuccess: (state) => {
-            state.success = "Причина добавлена";
+        getSuccess: (state, success) => {
+            const filterCollabs = state.collabs.map((collab) => {
+                if (state.adaptId == collab.id) {
+                    collab.isEntered = true;
+                }
+                return collab;
+            });
+            state.collabs = filterCollabs;
+            state.success = success;
+            setTimeout(function() { state.success = '' }, 1000);
         },
 
         selectRegion: (state, region) => {
@@ -62,7 +70,7 @@ export default new Vuex.Store({
             state.reason = reason;
         },
 
-        selectAdapt: (state, { adaptId, oldReason  }) => {
+        selectAdapt: (state, { adaptId, oldReason }) => {
             state.adaptId = adaptId;
             state.oldReason = oldReason;
         }
@@ -114,7 +122,7 @@ export default new Vuex.Store({
                 if (data.error) {
                     commit('getError', data.error);
                 } else {
-                    commit('getSuccess');
+                    commit('getSuccess', data.success);
                 }
                 commit('selectAdapt', { adaptId: '', oldReason: '' });
             })

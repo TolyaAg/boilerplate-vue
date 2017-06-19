@@ -1,21 +1,38 @@
 <template>
-    <div class="alert" v-if="text != ''">
-        {{ text }}
-    </div>
+    <transition name="alert-success">
+        <div class="alert-container" v-if="text != ''">
+            <div class="alert">
+                {{ text }}
+            </div>
+        </div>
+    </transition>
 </template>
 
 <script>
-    export default {
-        name:'alert-success',
-        props: {
-            text: { type: String, default: '' }
-        }
+export default {
+    name:'alert-success',
+    props: {
+        text: { type: String, default: '' }
     }
+}
 </script>
 
 <style lang="scss" scoped>
 $alert-success-color: #dff0d8;
 
+.alert-success-enter-active, .alert-success-leave-active {
+    transition: opacity .5s ease-in-out;
+}
+
+.alert-success-enter, .alert-success-leave-to /* .fade-leave-active для <2.1.8 */ {
+    opacity: 0;
+}
+
+.alert-container {
+    position: absolute;
+    z-index: 100;
+    display: block;
+    width: 100%;
 
     .alert {
         padding: 8px;
@@ -25,8 +42,8 @@ $alert-success-color: #dff0d8;
         background-color: $alert-success-color;
         border-color: darken($alert-success-color, 10%);
         text-align: center;
-        position: absolute;
-        z-index: 100;
-        display: block;
+        margin: 100px auto;
+        max-width: 20%;
     }
+}
 </style>

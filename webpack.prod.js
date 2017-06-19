@@ -2,13 +2,20 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const projectConfig = require('./project.config.js');
+
+// console.log('remote path: %s and %s', projectConfig.remotePath, path.isAbsolute(projectConfig.remotePath));
 
 module.exports = {
-    entry: {'app': './src/main.js'},
+    entry: {
+        'app': './src/main.js',
+        'vue': ['vue']
+    },
     output: {
-        path: path.resolve(__dirname, './dist'),
-        publicPath: '/',
-        filename: 'build.js'
+        path: projectConfig.remotePath,
+        publicPath: projectConfig.publicPath,
+        filename: 'build.js',
+        library: '[name]'
     },
     resolve: {
         modules: ['node_modules'],
@@ -58,6 +65,10 @@ module.exports = {
         new webpack.LoaderOptionsPlugin({
             minimize: true,
             debug:false
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vue',
+            filename: 'vue.js'
         }),
         new ExtractTextPlugin("./style/style.css"),
         new HtmlWebpackPlugin({

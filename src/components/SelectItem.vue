@@ -66,8 +66,8 @@ export default {
     },
 
     componentClick() {
-      this.selected = true;
       this.preload(this.inputSelect);
+      this.selected = true;
     }
   }
 }

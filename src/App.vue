@@ -9,7 +9,7 @@
             <alert-warning :text="error" :close="closeError"/>
             <transition name="items">
                 <ul class="container__collabs-list" v-show="collabs.length > 0">
-                    <li v-for="collab in collabs" class="collabs-list__item">
+                    <li v-for="collab in collabs" :class="{ 'collabs-list__item-entered': collab.isEntered, 'collabs-list__item': true }">
                         <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0'}">
                             {{collab.info.name}}
                         </div>
@@ -31,7 +31,7 @@
                         <button class="close-button" @click="closeCommentWindow">&times;</button>
                     </div>
                     <div class="modal__enter-comment__container">
-                        <textarea readonly v-for="reason in splitReasons" v-show="reason != ''" :value="reason" class="textarea-readonly" title="Старые причины"></textarea>
+                        <textarea readonly v-for="reason in splitReasons" v-show="reason != ''" :value="reason.trim()" class="textarea-readonly" title="Старые причины"></textarea>
                         <textarea v-model="reason" autofocus="true" class="textarea-input" placeholder="Напишите причину"></textarea>
                         <custom-button text="Внести причину" :action="enterReason"/>
                     </div>
@@ -77,7 +77,8 @@ export default {
         ...mapMutations([
             'selectProgramm',
             'selectRegion',
-            'closeError'
+            'closeError',
+            'getSuccess'
         ]),
 
         ...mapActions([
@@ -115,7 +116,7 @@ export default {
 
 <style src="./styles/styles.css"></style>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .items-enter-active {
     transition: max-height .8s ease-in-out
@@ -148,6 +149,11 @@ export default {
                 color: #fff;
                 background-color: #999;
             }
+        }
+
+        .collabs-list__item-entered {
+            color: #fff;
+            background-color: #999;
         }
     }
 }
