@@ -45,7 +45,3 @@
 .modal-enter, .modal-leave-to /* .fade-leave-active для <2.1.8 */ {
     opacity: 0
 }
-
-.loading {
-    background-image: url(./icons/loading.png);
-}

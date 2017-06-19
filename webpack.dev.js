@@ -39,13 +39,18 @@ module.exports = {
                 }
             },
             {
+                test: /\.woff(2)?(\?)?(\d+)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'url-loader?name=fonts/[name].[ext]&limit=10000&mimetype=application/font-woff'
+            },
+            {
+                test: /\.(ttf|eot|svg)(\?)?(\d+)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'file-loader?name=fonts/[name].[ext]'
+            },
+            {
                 test: /\.(png|jpg|gif)$/,
                 use: [
                     {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 8192
-                        }  
+                        loader: 'url-loader?name=images/[name].[ext]'
                     }
                 ]
             },

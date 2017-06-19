@@ -115,6 +115,7 @@ export default {
 </script>
 
 <style src="./styles/styles.css"></style>
+<style src="./styles/font/_flaticon.scss" lang="scss"></style>
 
 <style lang="scss" scoped>
 

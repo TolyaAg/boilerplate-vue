@@ -1,11 +1,11 @@
 <template>
     <button 
-        :class="[ 'custom-button', { 'custom-button--selected': selected } ]" 
+        :class="{'custom-button': true, 'custom-button--selected': selected}" 
         @click="action" 
         @mousedown="selected = true" 
         @mouseup="selected = false">
             {{ text }}
-            <i class="loading"></i>
+            <i class="flaticon-reload"></i>
     </button>
 </template>
 
