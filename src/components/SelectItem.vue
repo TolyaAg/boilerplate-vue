@@ -9,6 +9,7 @@
         class="select-input"
         @keyup="preload(inputSelect)"
         />
+        <span v-show="loading" class="icon-spin4 animate-spin"></span>
     </div>
     <transition name="fade">
       <ul class="select-content" v-show="selected">
@@ -30,7 +31,8 @@ export default {
     selectedItem: { type: Object, default: () => {} },
     items: { type: Object, default: () => { items: [] } },
     save: { type: Function },
-    preload: { type: Function }
+    preload: { type: Function },
+    loading: { type: Boolean, default: false}
   },
   data () {
     return {
@@ -74,6 +76,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$spiner-color: #2c820a;
 
   .select-container {
     box-sizing: content-box;
@@ -103,7 +106,7 @@ export default {
       position: relative;
       display: inline-block;
       font-family: sans-serif;
-      width: 100%;
+      width: 90%;
       min-height: 20px;
       line-height: 20px;
       border: none;
@@ -116,6 +119,12 @@ export default {
       margin-bottom: 8px;
       color: inherit;
       outline: 0;
+    }
+
+    .icon-spin4 {
+      float: right;
+      font-size: 110%;
+      color: $spiner-color;
     }
 
     .select-arrow {

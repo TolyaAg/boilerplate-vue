@@ -2,15 +2,18 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const projectConfig = require('./project.config.js');
 
+// console.log('remote path: %s and %s', projectConfig.remotePath, path.isAbsolute(projectConfig.remotePath));
 
 module.exports = {
-    entry: { 
+    entry: {
         'app': './src/main.js',
         'vue': ['vue']
     },
     output: {
-        path: path.resolve(__dirname, './dist'),
+        path: projectConfig.remotePath,
+        publicPath: projectConfig.publicPath,
         filename: 'build.js',
         library: '[name]'
     },
@@ -25,17 +28,17 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
-                    extractCSS: true,
-                    loaders: {
-                        scss: ExtractTextPlugin.extract({
-                            use: ['css-loader', 'sass-loader'],
-                            fallback: 'vue-style-loader'
-                        }),
-                        css: ExtractTextPlugin.extract({
-                            use: ['css-loader'],
-                            fallback: 'vue-style-loader'
-                        })
-                    }
+                  extractCSS: true,
+                  loaders: {
+                    scss: ExtractTextPlugin.extract({
+                      use: ['css-loader', 'sass-loader'],
+                      fallback: 'vue-style-loader'
+                    }),
+                    css: ExtractTextPlugin.extract({
+                      use: ['css-loader'],
+                      fallback: 'vue-style-loader'
+                    })
+                  }
                 }
             },
             {
@@ -60,45 +63,43 @@ module.exports = {
         ]
     },
 
-    devServer: {
-        host: 'localhost',
-        port: 8080,
-        hot: true,
-        compress: true,
-        historyApiFallback: true,
-        noInfo: false,
-        stats: 'minimal',
-        overlay: {
-            warnings: true,
-            errors: true
-        },
-        watchOptions: {
-            aggregateTimeout: 300,
-            poll: 1000
-        },
-        contentBase: path.join(__dirname, './dist')
-    },
-
-    devtool: 'source-map',
-
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new ExtractTextPlugin("./style/style.css"),
+        new webpack.optimize.UglifyJsPlugin({
+            beautify: false,
+            mangle: {
+                screw_ie8: true,
+                keep_fnames: true
+            },
+            compress: {
+                screw_ie8: true,
+                warnings: false,
+                drop_console: true
+            },
+            comments: false,
+            sourceMap: true
+        }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true,
+            debug:false
+        }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vue',
             filename: 'vue.js'
         }),
+        new ExtractTextPlugin("./style/style.css"),
         new HtmlWebpackPlugin({
             hash: true,
             template: "./src/index.html",
-            inject: true
-        }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('development')
-            }
-        }),
+            inject: true,
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+            },
+            chunksSortMode: 'dependency'
+        })
     ]
 
 }

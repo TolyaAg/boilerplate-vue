@@ -16,7 +16,10 @@ export default new Vuex.Store({
         collabs: [],
         reason: '',
         adaptId: '',
-        oldReason: ''
+        oldReason: '',
+        collabsLoading: false,
+        programmsLoading: false,
+        regionsLoading: false
     },
 
     getters: {
@@ -73,11 +76,24 @@ export default new Vuex.Store({
         selectAdapt: (state, { adaptId, oldReason }) => {
             state.adaptId = adaptId;
             state.oldReason = oldReason;
+        },
+
+        collabLoading: (state) => {
+            state.collabsLoading = !state.collabsLoading;
+        },
+
+        programmLoading: (state) => {
+            state.programmsLoading = !state.programmsLoading;
+        },
+
+        regionLoading: (state) => {
+            state.regionsLoading = !state.regionsLoading;
         }
     },
 
     actions: {
         getProgramms: ({ commit }, search) => {
+            commit('programmLoading');
             getVue({ ...getTemplate('notStudy','Programms'), search })
             .then(resp => resp.body)
             .then(data => {
@@ -87,9 +103,11 @@ export default new Vuex.Store({
                     commit('getProgramms', data);
               }
             });
+            commit('programmLoading');
         },
 
         getRegions: ({ commit }, search) => {
+            commit('regionLoading');
             getVue({ ...getTemplate('notStudy', 'Regions'), search })
             .then(resp => resp.body)
             .then(data => {
@@ -99,18 +117,22 @@ export default new Vuex.Store({
                     commit('getRegions', data);
               }
             });
+            commit('regionLoading');
         },
 
         getCollabs: ({ commit, state }) => {
+            commit('collabLoading');
             const { selectedProgramm: {id: programm_id = ''} = {}, selectedRegion: {info: {name: region_name = ''} = {}} = {} } = state;
             getVue({ ...getTemplate('notStudy', 'Collabs'), programm_id, region_name })
             .then(resp => resp.body)
             .then(data => {
                 if (data.error) {
                     commit('getError', data.error);
+                    commit('getCollabs', []);
                 } else {
                     commit('getCollabs', data.data);
                 }
+                commit('collabLoading');
             });
         },
 

@@ -12,8 +12,7 @@ module.exports = {
         'vue': ['vue']
     },
     output: {
-        path: projectConfig.remotePath,
-        publicPath: projectConfig.publicPath,
+        path: path.resolve(__dirname, './dist'),
         filename: 'build.js',
         library: '[name]'
     },
@@ -33,6 +32,10 @@ module.exports = {
                     scss: ExtractTextPlugin.extract({
                       use: ['css-loader', 'sass-loader'],
                       fallback: 'vue-style-loader'
+                    }),
+                    css: ExtractTextPlugin.extract({
+                      use: ['css-loader'],
+                      fallback: 'vue-style-loader'
                     })
                   }
                 }
@@ -41,6 +44,20 @@ module.exports = {
                 test: /.\js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: 'url-loader',
+                options: {
+                  name: 'style/fonts/[name].[hash].[ext]'
+                }
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                loader: 'url-loader',
+                options: {
+                  name: 'style/fonts/[name].[hash].[ext]'
+                }
             }
         ]
     },
@@ -56,7 +73,7 @@ module.exports = {
             },
             compress: {
                 screw_ie8: true,
-                warnings: true,
+                warnings: false,
                 drop_console: true
             },
             comments: false,
@@ -72,10 +89,21 @@ module.exports = {
         }),
         new ExtractTextPlugin("./style/style.css"),
         new HtmlWebpackPlugin({
-            title: "Vue app",
             hash: true,
-            template: "./src/index.html"
-        })
+            template: "./src/index.html",
+            inject: true,
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+            },
+            chunksSortMode: 'dependency'
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
+            }
+        }),
     ]
 
 }

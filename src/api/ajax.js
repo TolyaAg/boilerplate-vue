@@ -2,8 +2,8 @@ import Vue from 'vue';
 import VueRecource from 'vue-resource';
 import axios from 'axios';
 
-const customBaseUrl = process.env.NODE_ENV === 'production' ? '/custom_web_template.html' : 'https://study.merlion.ru/custom_web_template.html';
-
+const customBaseUrl = process.env.NODE_ENV === 'production' ? '/custom_web_template.html' : 'http://study.merlion.ru/custom_web_template.html';
+console.log(process.env.NODE_ENV);
 Vue.use(VueRecource);
 
 export const  getAxios = (url, params) => {

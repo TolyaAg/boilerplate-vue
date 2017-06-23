@@ -4,8 +4,9 @@
         @click="action" 
         @mousedown="selected = true" 
         @mouseup="selected = false">
-            {{ text }}
-            <i class="flaticon-reload"></i>
+            <span v-show="!loading">{{ text }}</span>
+            <span v-show="loading" class="icon-spin4 animate-spin"></span>
+            <span v-show="loading">Загрузка</span>
     </button>
 </template>
 
@@ -19,7 +20,8 @@ export default {
     },
     props: {
         text: { type: String, default: '' },
-        action: { type: Function }
+        action: { type: Function },
+        loading: { type: Boolean, default: false}
     },
     methods: {
     }
@@ -42,6 +44,7 @@ $button-primary-color: #ff5252;
     border: 1px solid darken($button-primary-color, 10%);
     color: #fff;
     transition: all .2s;
+    min-width: 155px;
 
     &.custom-button--selected {
         border: 1px solid darken($button-primary-color, 30%);

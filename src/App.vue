@@ -3,14 +3,26 @@
         <alert-success :text="success"/>
         <div class="title">Контроль причин необученности сотрудников</div>
         <div class="container">
-            <select-item placeholder="Выберите учебную программу" :items="itemsProgramm" :selectedItem="selectedProgramm" :save="selectProgramm" :preload="getProgramms"/>
-            <select-item placeholder="Выберите регион" :items="itemsRegion" :selectedItem="selectedRegion" :save="selectRegion" :preload="getRegions"/>
-            <custom-button text="Показать сотрудников" :action="getCollabs"/>
+            <select-item 
+                placeholder="Выберите учебную программу" 
+                :items="itemsProgramm" 
+                :selectedItem="selectedProgramm" 
+                :save="selectProgramm" 
+                :preload="getProgramms"
+                :loading="programmsLoading"/>
+            <select-item 
+                placeholder="Выберите регион" 
+                :items="itemsRegion" 
+                :selectedItem="selectedRegion" 
+                :save="selectRegion" 
+                :preload="getRegions"
+                :loading="regionsLoading"/>
+            <custom-button text="Показать сотрудников" :action="getCollabs" :loading="collabsLoading"/>
             <alert-warning :text="error" :close="closeError"/>
             <transition name="items">
-                <ul class="container__collabs-list" v-show="collabs.length > 0">
+                <ul class="container__collabs-list" v-show="collabs.length > 0 && !collabsLoading">
                     <li v-for="collab in collabs" :class="{ 'collabs-list__item-entered': collab.isEntered, 'collabs-list__item': true }">
-                        <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0'}">
+                        <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0', text-align: 'left'}">
                             {{collab.info.name}}
                         </div>
                         <div :style="{width: 100 / 3 - 1 + '%', display: 'inline-block', margin: '8px 0'}">
@@ -66,7 +78,10 @@ export default {
             'error',
             'success',
             'collabs',
-            'oldReason'
+            'oldReason',
+            'collabsLoading',
+            'regionsLoading',
+            'programmsLoading'
         ]),
 
         ...mapGetters([
@@ -114,16 +129,17 @@ export default {
 }
 </script>
 
-<style src="./styles/styles.css"></style>
-<style src="./styles/font/_flaticon.scss" lang="scss"></style>
+<style src="./styles/styles.scss" lang="scss"></style>
+<style src="./styles/font/css/merlion-fonts.css"></style>
+<style src="./styles/font/css/animation.css"></style>
 
 <style lang="scss" scoped>
 
-.items-enter-active {
-    transition: max-height .8s ease-in-out
+.items-enter-active, .items-leave-active {
+    transition: all .5s ease-in-out;
 }
 
-.items-enter /* .fade-leave-active для <2.1.8 */ {
+.items-enter, .items-leave-to /* .fade-leave-active для <2.1.8 */ {
     max-height: 0px !important;
 }
 
@@ -139,7 +155,8 @@ export default {
         width: 100%;
         background: #fff;
         color: #35495e;
-        max-height: 600px;
+        max-height: 460px;
+        margin: 16px 0;
 
         .collabs-list__item {
             text-align: center;
