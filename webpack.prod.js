@@ -3,6 +3,7 @@ const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectConfig = require('./project.config.js');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 // console.log('remote path: %s and %s', projectConfig.remotePath, path.isAbsolute(projectConfig.remotePath));
 
@@ -47,17 +48,11 @@ module.exports = {
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                  name: 'style/fonts/[name].[hash].[ext]'
-                }
+                loader: 'url-loader'
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                  name: 'style/fonts/[name].[hash].[ext]'
-                }
+                loader: 'url-loader'
             }
         ]
     },
@@ -87,7 +82,7 @@ module.exports = {
             name: 'vue',
             filename: 'vue.js'
         }),
-        new ExtractTextPlugin("./style/style.css"),
+        new ExtractTextPlugin({ filename: "./style/style.css", allChunks: true }),
         new HtmlWebpackPlugin({
             hash: true,
             template: "./src/index.html",
@@ -104,6 +99,7 @@ module.exports = {
                 NODE_ENV: JSON.stringify('production')
             }
         }),
+        new FriendlyErrorsWebpackPlugin()
     ]
 
 }

@@ -3,18 +3,18 @@
         <alert-success :text="success"/>
         <div class="title">Контроль причин необученности сотрудников</div>
         <div class="container">
-            <select-item 
-                placeholder="Выберите учебную программу" 
-                :items="itemsProgramm" 
-                :selectedItem="selectedProgramm" 
-                :save="selectProgramm" 
+            <select-item
+                placeholder="Выберите учебную программу"
+                :items="itemsProgramm"
+                :selectedItem="selectedProgramm"
+                :save="selectProgramm"
                 :preload="getProgramms"
                 :loading="programmsLoading"/>
-            <select-item 
-                placeholder="Выберите регион" 
-                :items="itemsRegion" 
-                :selectedItem="selectedRegion" 
-                :save="selectRegion" 
+            <select-item
+                placeholder="Выберите регион"
+                :items="itemsRegion"
+                :selectedItem="selectedRegion"
+                :save="selectRegion"
                 :preload="getRegions"
                 :loading="regionsLoading"/>
             <custom-button text="Показать сотрудников" :action="getCollabs" :loading="collabsLoading"/>
@@ -22,14 +22,14 @@
             <transition name="items">
                 <ul class="container__collabs-list" v-show="collabs.length > 0 && !collabsLoading">
                     <li v-for="collab in collabs" :class="{ 'collabs-list__item-entered': collab.isEntered, 'collabs-list__item': true }">
-                        <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0', text-align: 'left'}">
+                        <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0', 'text-align': 'left'}">
                             {{collab.info.name}}
                         </div>
                         <div :style="{width: 100 / 3 - 1 + '%', display: 'inline-block', margin: '8px 0'}">
                             {{collab.info.delay}}
                         </div>
                         <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0'}">
-                            <enter-reason-button text="Указать причину" :oldReason="collab.info.reason" :adaptId="collab.id" :action="openCommentWindow"/>
+                            <enter-reason-button :text="collab.info.reason != '' || collab.isEntered ? 'Обновить причину' : 'Указать причину'" :oldReason="collab.info.reason" :adaptId="collab.id" :action="openCommentWindow"/>
                         </div>
                     </li>
                 </ul>
@@ -137,9 +137,10 @@ export default {
 
 .items-enter-active, .items-leave-active {
     transition: all .5s ease-in-out;
+    overflow: hidden !important;
 }
 
-.items-enter, .items-leave-to /* .fade-leave-active для <2.1.8 */ {
+.items-enter, .items-leave-to {
     max-height: 0px !important;
 }
 

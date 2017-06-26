@@ -2,10 +2,11 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 
 module.exports = {
-    entry: { 
+    entry: {
         'app': './src/main.js',
         'vue': ['vue']
     },
@@ -45,17 +46,11 @@ module.exports = {
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                  name: 'style/fonts/[name].[hash].[ext]'
-                }
+                loader: 'url-loader'
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                  name: 'style/fonts/[name].[hash].[ext]'
-                }
+                loader: 'url-loader'
             }
         ]
     },
@@ -76,7 +71,8 @@ module.exports = {
             aggregateTimeout: 300,
             poll: 1000
         },
-        contentBase: path.join(__dirname, './dist')
+        contentBase: path.join(__dirname, './dist'),
+        quiet: true
     },
 
     devtool: 'source-map',
@@ -84,7 +80,7 @@ module.exports = {
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new ExtractTextPlugin("./style/style.css"),
+        new ExtractTextPlugin({ filename: "./style/style.css", allChunks: true }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vue',
             filename: 'vue.js'
@@ -99,6 +95,7 @@ module.exports = {
                 NODE_ENV: JSON.stringify('development')
             }
         }),
+        new FriendlyErrorsWebpackPlugin()
     ]
 
 }
