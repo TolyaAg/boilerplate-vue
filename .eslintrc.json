@@ -1,0 +1,12 @@
+{
+    "extends": "vue",
+    "plugins": [
+      "vue"
+    ],
+    "rules": {
+        "indent": ["error", 4],
+        "quotes": ["error", "double"],
+        "camelcase": "off"
+    }
+
+}

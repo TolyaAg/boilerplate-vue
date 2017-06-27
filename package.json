@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-server": "cross-env NODE_ENV=development webpack-dev-server --env=dev --progress --profile --colors --open",
+    "dev-server": "cross-env NODE_ENV=development webpack-dev-server --env=dev --progress --profile --colors ",
     "dev": "rimraf dist && webpack --env=dev --progress --profile --colors",
     "prod": "rimraf dist && webpack --env=prod --progress --profile --colors",
     "upload": "cross-env NODE_ENV=production webpack --env=upl --progress --profile --colors"
@@ -32,6 +32,11 @@
     "babel-preset-stage-0": "^6.24.1",
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.4",
+    "eslint": "^4.1.1",
+    "eslint-config-vue": "^2.0.2",
+    "eslint-loader": "^1.8.0",
+    "eslint-plugin-html": "^3.0.0",
+    "eslint-plugin-vue": "^2.1.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.2",
     "friendly-errors-webpack-plugin": "^1.6.1",

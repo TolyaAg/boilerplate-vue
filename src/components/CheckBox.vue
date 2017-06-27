@@ -9,9 +9,9 @@
 
 <script>
 export default {
-    name: 'checkbox',
+    name: "checkbox",
     props: {
-        text: { type: String, default: '' },
+        text: { type: String, default: "" },
         value: { type: Boolean, default: false },
         action: { type: Function }
     }

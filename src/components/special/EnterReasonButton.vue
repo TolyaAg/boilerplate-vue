@@ -1,8 +1,8 @@
 <template>
-    <button 
-        :class="[ 'custom-button', { 'custom-button--selected': selected } ]" 
-        @click="click" 
-        @mousedown="selected = true" 
+    <button
+        :class="[ 'custom-button', { 'custom-button--selected': selected } ]"
+        @click="click"
+        @mousedown="selected = true"
         @mouseup="selected = false">
             {{ text }}
             <span class="icon-edit"></span>
@@ -10,29 +10,29 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations } from "vuex"
 
 export default {
     name: "enter-reason-button",
-    data() {
+    data () {
         return {
             selected: false
         }
     },
     props: {
-        text: { type: String, default: '' },
+        text: { type: String, default: "" },
         action: { type: Function },
-        adaptId: { type: String, default: '' },
-        oldReason: { type: String, default: '' }
+        adaptId: { type: String, default: "" },
+        oldReason: { type: String, default: "" }
     },
     methods: {
         ...mapMutations([
-            'selectAdapt'
+            "selectAdapt"
         ]),
-        click() {
-            const { adaptId, oldReason } = this;
-            this.selectAdapt({ adaptId, oldReason });
-            this.action();
+        click () {
+            const { adaptId, oldReason } = this
+            this.selectAdapt({ adaptId, oldReason })
+            this.action()
         }
     }
 }

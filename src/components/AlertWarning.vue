@@ -6,13 +6,13 @@
 </template>
 
 <script>
-	export default {
-		name:'alert-warning',
-		props: {
-			text: { type: String, default: '' },
-			close: { type: Function }
-		}
-	}
+export default {
+    name: "alert-warning",
+    props: {
+        text: { type: String, default: "" },
+        close: { type: Function }
+    }
+}
 </script>
 
 <style lang="scss" scoped>

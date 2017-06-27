@@ -23,6 +23,12 @@ module.exports = {
     module: {
         rules: [
             {
+                enforce: 'pre',
+                test: /\.(vue|js)$/,
+                loader: 'eslint-loader',
+                exclude: /node_modules/
+            },
+            {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
@@ -72,7 +78,7 @@ module.exports = {
             poll: 1000
         },
         contentBase: path.join(__dirname, './dist'),
-        quiet: true
+        open: true
     },
 
     devtool: 'source-map',
@@ -94,8 +100,7 @@ module.exports = {
             'process.env': {
                 NODE_ENV: JSON.stringify('development')
             }
-        }),
-        new FriendlyErrorsWebpackPlugin()
+        })
     ]
 
 }

@@ -21,61 +21,61 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
-import _ from 'lodash';
+import { mixin as clickaway } from "vue-clickaway"
+import _ from "lodash"
 
 export default {
-  mixins: [ clickaway ],
-  name: 'select-item',
-  props: {
-    placeholder: { type: String, default: () => "Placeholder не задан" },
-    selectedItem: { type: Object, default: () => {} },
-    items: { type: Object, default: () => { items: [] } },
-    save: { type: Function },
-    preload: { type: Function },
-    loading: { type: Boolean, default: false}
-  },
-  data () {
-    return {
-      selected: false,
-      inputSelect: ''
+    mixins: [clickaway],
+    name: "select-item",
+    props: {
+        placeholder: { type: String, default: () => "Placeholder не задан" },
+        selectedItem: { type: Object, default: () => { return {} } },
+        items: { type: Object, default: () => { return { items: [] } } },
+        save: { type: Function },
+        preload: { type: Function },
+        loading: { type: Boolean, default: false }
+    },
+    data () {
+        return {
+            selected: false,
+            inputSelect: ""
+        }
+    },
+    created () {
+        this.preload(this.inputSelect)
+    },
+    methods: {
+        away () {
+            if (_.isEqual(this.selectedItem, {})) {
+                this.inputSelect = ""
+            } else if (this.inputSelect === "") {
+                this.save({})
+            } else if (this.inputSelect !== this.selectedItem.info.name) {
+                this.inputSelect = this.selectedItem.info.name
+            }
+
+            this.selected = false
+        },
+
+        getTextInfo (info) {
+            let text = ""
+            for (const props in info) {
+                text += info[props] + " "
+            }
+            return text
+        },
+
+        selectItem (item) {
+            this.save(item)
+            this.selected = false
+            this.inputSelect = item.info.name
+            setTimeout(() => { this.preload(this.inputSelect) }, 500)
+        },
+
+        componentClick () {
+            this.selected = true
+        }
     }
-  },
-  created() {
-      this.preload(this.inputSelect);
-  },
-  methods: {
-    away() {
-      if (_.isEqual(this.selectedItem, {})) {
-        this.inputSelect = "";
-      } else if (this.inputSelect == "") {
-        this.save({})
-      } else if (this.inputSelect != this.selectedItem.info.name) {
-        this.inputSelect = this.selectedItem.info.name
-      }
-
-      this.selected = false;
-    },
-
-    getTextInfo(info) {
-      let text = '';
-      for (let props in info) {
-        text += info[props] + " ";
-      }
-      return text;
-    },
-
-    selectItem(item) {
-      this.save(item);
-      this.selected = false;
-      this.inputSelect = item.info.name;
-      setTimeout( () => { this.preload(this.inputSelect); }, 500);
-    },
-
-    componentClick() {
-      this.selected = true;
-    }
-  }
 }
 </script>
 
@@ -202,7 +202,7 @@ $spiner-color: #2c820a;
             font-size: 14px;
 
             &:hover {
-                background: #999;
+                background: #20a0ff;
                 color: #fff;
             }
       }

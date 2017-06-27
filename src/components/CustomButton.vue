@@ -1,6 +1,6 @@
 <template>
     <button
-        :class="{'custom-button': true, 'custom-button--selected': selected, 'custom-button--disabled': disabled}" 
+        :class="{'custom-button': true, 'custom-button--selected': selected, 'custom-button--disabled': disabled}"
         @click="action"
         @mousedown="selected = true"
         @mouseup="selected = false"
@@ -14,16 +14,16 @@
 <script>
 export default {
     name: "custom-button",
-    data() {
+    data () {
         return {
             selected: false
         }
     },
     props: {
-        text: { type: String, default: '' },
+        text: { type: String, default: "" },
         action: { type: Function },
-        loading: { type: Boolean, default: false},
-        disabled: { type: Boolean, default: false}
+        loading: { type: Boolean, default: false },
+        disabled: { type: Boolean, default: false }
     },
     methods: {
     }

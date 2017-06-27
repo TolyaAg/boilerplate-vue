@@ -26,7 +26,7 @@
             <transition name="items">
                 <ul class="container__collabs-list" v-show="collabs.length > 0 && !collabsLoading">
                     <li v-for="collab in collabs" :class="{ 'collabs-list__item-entered': collab.isEntered, 'collabs-list__item': true }">
-                        <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0', 'text-align': 'left'}">
+                        <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0', 'text-align': 'left', 'box-sizing': 'border-box', 'padding-left': '8px'}">
                             <a
                                 :href="'http://study.merlion.ru/view_doc.html?mode=collaborator&object_id=' + collab.person_id"
                                 target="_blank"
@@ -67,78 +67,78 @@
 </template>
 
 <script>
-import SelectItem from './components/SelectItem';
-import CustomButton from './components/CustomButton';
-import EnterReasonButton from './components/special/EnterReasonButton';
-import AlertWarning from './components/AlertWarning';
-import AlertSuccess from './components/AlertSuccess';
-import CheckBox from './components/CheckBox';
-import _ from 'lodash';
-import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
+import SelectItem from "./components/SelectItem"
+import CustomButton from "./components/CustomButton"
+import EnterReasonButton from "./components/special/EnterReasonButton"
+import AlertWarning from "./components/AlertWarning"
+import AlertSuccess from "./components/AlertSuccess"
+import CheckBox from "./components/CheckBox"
+import _ from "lodash"
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex"
 
 export default {
-    name: 'app',
+    name: "app",
     data () {
         return {
             enterComment: false,
-            reason: ''
+            reason: ""
         }
     },
     computed: {
         ...mapState([
-            'selectedProgramm',
-            'itemsProgramm',
-            'selectedRegion',
-            'itemsRegion',
-            'error',
-            'success',
-            'collabs',
-            'oldReason',
-            'collabsLoading',
-            'regionsLoading',
-            'programmsLoading',
-            'withDelay',
-            'withoutReason'
+            "selectedProgramm",
+            "itemsProgramm",
+            "selectedRegion",
+            "itemsRegion",
+            "error",
+            "success",
+            "collabs",
+            "oldReason",
+            "collabsLoading",
+            "regionsLoading",
+            "programmsLoading",
+            "withDelay",
+            "withoutReason"
         ]),
 
         ...mapGetters([
-            'splitReasons'
+            "splitReasons"
         ]),
 
-        programmEmpty() {
-            return _.isEqual(this.selectedProgramm, {});
+        programmEmpty () {
+            return _.isEqual(this.selectedProgramm, {})
         }
     },
     methods: {
         ...mapMutations([
-            'selectProgramm',
-            'selectRegion',
-            'closeError',
-            'getSuccess',
-            'changeReason',
-            'changeDelay'
+            "selectProgramm",
+            "selectRegion",
+            "closeError",
+            "getSuccess",
+            "changeReason",
+            "changeDelay"
         ]),
 
         ...mapActions([
-            'getProgramms',
-            'getRegions',
-            'getCollabs',
-            'postReason'
+            "getProgramms",
+            "getRegions",
+            "getCollabs",
+            "postReason"
         ]),
 
-        openCommentWindow() {
-            this.enterComment = true;
+        openCommentWindow () {
+            this.enterComment = true
         },
 
-        closeCommentWindow() {
-            this.reason = '';
-            this.enterComment = false;
+        closeCommentWindow () {
+            this.reason = ""
+            this.enterComment = false
         },
 
-        enterReason() {
-            this.postReason(this.reason);
-            this.enterComment = false;
-            this.reason = '';
+        enterReason () {
+            this.postReason(this.reason)
+            this.enterComment = false
+            this.reason = ""
         }
     },
 
@@ -191,7 +191,7 @@ $font-color: #35495e;
 
             &:hover {
                 color: #fff;
-                background-color: #999;
+                background-color: #20a0ff;
             }
         }
 

@@ -10,9 +10,9 @@
 
 <script>
 export default {
-    name:'alert-success',
+    name: "alert-success",
     props: {
-        text: { type: String, default: '' }
+        text: { type: String, default: "" }
     }
 }
 </script>
