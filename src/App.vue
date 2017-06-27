@@ -4,32 +4,45 @@
         <div class="title">Контроль причин необученности сотрудников</div>
         <div class="container">
             <select-item
+                :style="{'max-width': '65%', display: 'inline-block'}"
                 placeholder="Выберите учебную программу"
                 :items="itemsProgramm"
                 :selectedItem="selectedProgramm"
                 :save="selectProgramm"
                 :preload="getProgramms"
                 :loading="programmsLoading"/>
+            <check-box  text="Показывать только с просрочкой" :value="withDelay" :action="changeDelay"/>
             <select-item
+                :style="{'max-width': '65%', display: 'inline-block'}"
                 placeholder="Выберите регион"
                 :items="itemsRegion"
                 :selectedItem="selectedRegion"
                 :save="selectRegion"
                 :preload="getRegions"
                 :loading="regionsLoading"/>
-            <custom-button text="Показать сотрудников" :action="getCollabs" :loading="collabsLoading"/>
+            <check-box text="Показывать только с неуказанной причиной" :value="withoutReason" :action="changeReason"/><br/>
+            <custom-button text="Показать сотрудников" :action="getCollabs" :loading="collabsLoading" :disabled="programmEmpty"/>
             <alert-warning :text="error" :close="closeError"/>
             <transition name="items">
                 <ul class="container__collabs-list" v-show="collabs.length > 0 && !collabsLoading">
                     <li v-for="collab in collabs" :class="{ 'collabs-list__item-entered': collab.isEntered, 'collabs-list__item': true }">
                         <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0', 'text-align': 'left'}">
-                            {{collab.info.name}}
+                            <a
+                                :href="'http://study.merlion.ru/view_doc.html?mode=collaborator&object_id=' + collab.person_id"
+                                target="_blank"
+                                :style="{'text-decoration': 'none', cursor: 'pointer', color: 'inherit'}">
+                                {{collab.info.name}}
+                            </a>
                         </div>
                         <div :style="{width: 100 / 3 - 1 + '%', display: 'inline-block', margin: '8px 0'}">
                             {{collab.info.delay}}
                         </div>
                         <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0'}">
-                            <enter-reason-button :text="collab.info.reason != '' || collab.isEntered ? 'Обновить причину' : 'Указать причину'" :oldReason="collab.info.reason" :adaptId="collab.id" :action="openCommentWindow"/>
+                            <enter-reason-button
+                                :text="collab.info.reason != '' || collab.isEntered ? 'Обновить причину' : 'Указать причину'"
+                                :oldReason="collab.info.reason"
+                                :adaptId="collab.id"
+                                :action="openCommentWindow"/>
                         </div>
                     </li>
                 </ul>
@@ -45,7 +58,7 @@
                     <div class="modal__enter-comment__container">
                         <textarea readonly v-for="reason in splitReasons" v-show="reason != ''" :value="reason.trim()" class="textarea-readonly" title="Старые причины"></textarea>
                         <textarea v-model="reason" autofocus="true" class="textarea-input" placeholder="Напишите причину"></textarea>
-                        <custom-button text="Внести причину" :action="enterReason"/>
+                        <custom-button text="Внести причину" :action="enterReason" :disabled="reason.trim() == ''"/>
                     </div>
                 </div>
             </div>
@@ -59,6 +72,8 @@ import CustomButton from './components/CustomButton';
 import EnterReasonButton from './components/special/EnterReasonButton';
 import AlertWarning from './components/AlertWarning';
 import AlertSuccess from './components/AlertSuccess';
+import CheckBox from './components/CheckBox';
+import _ from 'lodash';
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -81,19 +96,27 @@ export default {
             'oldReason',
             'collabsLoading',
             'regionsLoading',
-            'programmsLoading'
+            'programmsLoading',
+            'withDelay',
+            'withoutReason'
         ]),
 
         ...mapGetters([
             'splitReasons'
-        ])
+        ]),
+
+        programmEmpty() {
+            return _.isEqual(this.selectedProgramm, {});
+        }
     },
     methods: {
         ...mapMutations([
             'selectProgramm',
             'selectRegion',
             'closeError',
-            'getSuccess'
+            'getSuccess',
+            'changeReason',
+            'changeDelay'
         ]),
 
         ...mapActions([
@@ -124,7 +147,8 @@ export default {
         CustomButton,
         AlertWarning,
         AlertSuccess,
-        EnterReasonButton
+        EnterReasonButton,
+        CheckBox
     }
 }
 </script>
@@ -134,6 +158,7 @@ export default {
 <style src="./styles/font/css/animation.css"></style>
 
 <style lang="scss" scoped>
+$font-color: #35495e;
 
 .items-enter-active, .items-leave-active {
     transition: all .5s ease-in-out;
@@ -155,7 +180,7 @@ export default {
         padding: 0;
         width: 100%;
         background: #fff;
-        color: #35495e;
+        color: $font-color;
         max-height: 460px;
         margin: 16px 0;
 
@@ -223,4 +248,5 @@ export default {
         }
     }
 }
+
 </style>

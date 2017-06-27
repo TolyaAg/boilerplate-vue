@@ -7,6 +7,7 @@
         :placeholder="placeholder"
         v-model="inputSelect"
         class="select-input"
+        @keyup.delete="inputSelect = ''"
         @keyup="preload(inputSelect)"
         />
         <span v-show="loading" class="icon-spin4 animate-spin"></span>
@@ -141,6 +142,7 @@ $spiner-color: #2c820a;
       transition: transform .4s ease;
       box-sizing: border-box;
       cursor: pointer;
+      transform-origin: center;
 
       &.select-arrow--select {
         transform: rotate(180deg);

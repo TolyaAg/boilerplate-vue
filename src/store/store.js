@@ -19,7 +19,9 @@ export default new Vuex.Store({
         oldReason: '',
         collabsLoading: false,
         programmsLoading: false,
-        regionsLoading: false
+        regionsLoading: false,
+        withDelay: false,
+        withoutReason: false
     },
 
     getters: {
@@ -88,6 +90,14 @@ export default new Vuex.Store({
 
         regionLoading: (state) => {
             state.regionsLoading = !state.regionsLoading;
+        },
+
+        changeDelay: (state) => {
+            state.withDelay = !state.withDelay;
+        },
+
+        changeReason(state) {
+            state.withoutReason = !state.withoutReason;
         }
     },
 
@@ -122,8 +132,8 @@ export default new Vuex.Store({
 
         getCollabs: ({ commit, state }) => {
             commit('collabLoading');
-            const { selectedProgramm: {id: programm_id = ''} = {}, selectedRegion: {info: {name: region_name = ''} = {}} = {} } = state;
-            getVue({ ...getTemplate('notStudy', 'Collabs'), programm_id, region_name })
+            const { selectedProgramm: {id: programm_id = ''} = {}, selectedRegion: {info: {name: region_name = ''} = {}} = {}, withDelay: with_delay = false, withoutReason: without_reason = false } = state;
+            getVue({ ...getTemplate('notStudy', 'Collabs'), programm_id, region_name, with_delay, without_reason })
             .then(resp => resp.body)
             .then(data => {
                 if (data.error) {
