@@ -5,7 +5,7 @@
         <div class="container">
             <select-item
                 :style="{'max-width': '65%', display: 'inline-block'}"
-                placeholder="Выберите учебную программу"
+                placeholder="Введите учебную программу"
                 :items="itemsProgramm"
                 :selectedItem="selectedProgramm"
                 :save="selectProgramm"
@@ -14,7 +14,7 @@
             <check-box  text="Показывать только с просрочкой" :value="withDelay" :action="changeDelay"/>
             <select-item
                 :style="{'max-width': '65%', display: 'inline-block'}"
-                placeholder="Выберите регион"
+                placeholder="Введите регион"
                 :items="itemsRegion"
                 :selectedItem="selectedRegion"
                 :save="selectRegion"
@@ -154,8 +154,6 @@ export default {
 </script>
 
 <style src="./styles/styles.scss" lang="scss"></style>
-<style src="./styles/font/css/merlion-fonts.css"></style>
-<style src="./styles/font/css/animation.css"></style>
 
 <style lang="scss" scoped>
 $font-color: #35495e;

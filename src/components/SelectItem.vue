@@ -7,7 +7,7 @@
         :placeholder="placeholder"
         v-model="inputSelect"
         class="select-input"
-        @keyup.delete="inputSelect = ''"
+        @keyup.46="inputSelect = ''"
         @keyup="preload(inputSelect)"
         />
         <span v-show="loading" class="icon-spin4 animate-spin"></span>

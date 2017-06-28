@@ -26,7 +26,7 @@ export default new Vuex.Store({
 
     getters: {
         splitReasons: state => {
-            return state.oldReason.split("")
+            return state.oldReason.split(";")
         }
     },
 
