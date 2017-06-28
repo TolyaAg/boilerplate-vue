@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'merlion-fonts';
-  src: url('../font/merlion-fonts.eot');
-  src: url('../font/merlion-fonts.eot') format('embedded-opentype'),
-       url('../font/merlion-fonts.woff2') format('woff2'),
-       url('../font/merlion-fonts.woff') format('woff'),
-       url('../font/merlion-fonts.ttf') format('truetype'),
-       url('../font/merlion-fonts.svg') format('svg');
+  src: url(merlion-fonts.eot);
+  src: url(merlion-fonts.eot) format('embedded-opentype'),
+       url(merlion-fonts.woff2) format('woff2'),
+       url(merlion-fonts.woff) format('woff'),
+       url(merlion-fonts.ttf) format('truetype'),
+       url(merlion-fonts.svg) format('svg');
   font-weight: normal;
   font-style: normal;
 }
