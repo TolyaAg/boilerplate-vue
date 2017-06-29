@@ -45,7 +45,7 @@ export default {
             width: 18px;
             height: 18px;
             background-color: #fff;
-            z-index: 1;
+            // z-index: 1;
             transition: border-color .25s cubic-bezier(.71,-.46,.29,1.46),background-color .25s cubic-bezier(.71,-.46,.29,1.46);
 
             &:after {

@@ -20,9 +20,16 @@ module.exports = {
         modules: ["node_modules"],
         extensions: [".js", ".vue", ".json"]
     },
-
     module: {
         rules: [
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                loader: "url-loader?name=[name].[hash:7].[ext]&outputPath=style/image/&publicPath=../&limit=10000"
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: "url-loader?name=[name].[hash:7].[ext]&outputPath=style/font/&publicPath=../&limit=10000"
+            },
             {
                 enforce: "pre",
                 test: /\.(vue|js)$/,
@@ -53,32 +60,9 @@ module.exports = {
                 test: /.\js$/,
                 loader: "babel-loader",
                 exclude: /node_modules/
-            },
-            {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                use: [
-                    {
-                        loader: "url-loader",
-                        options: {
-                            name: "style/image/[name].[hash:7].[ext]"
-                        }
-                    }
-                ]
-            },
-            {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                use: [
-                    {
-                        loader: "url-loader",
-                        options: {
-                            name: "style/font/[name].[hash:7].[ext]"
-                        }
-                    }
-                ]
             }
         ]
     },
-
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
@@ -127,5 +111,4 @@ module.exports = {
         }),
         new FriendlyErrorsWebpackPlugin()
     ]
-
 }

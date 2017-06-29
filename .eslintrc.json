@@ -6,7 +6,7 @@
     "rules": {
         "indent": ["error", 4],
         "quotes": ["error", "double"],
-        "camelcase": "off"
+        "camelcase": "off",
+        "object-curly-spacing": ["error", "always"]
     }
-
 }

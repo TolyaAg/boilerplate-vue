@@ -1,20 +1,23 @@
 <template>
   <div class="select-container" v-on-clickaway="away">
-    <div :class="[ 'select-arrow', {'select-arrow--select': selected} ]" @click="componentClick"></div>
+    <div :class="[ 'select-arrow', {'select-arrow--select': selected} ]" @click="arrowClick"></div>
     <div :class="[ 'select-tags', {'select-tags--select': selected, 'select-tags--focus': focus} ]" @click="componentClick">
-      <input
-        type="text"
-        :placeholder="placeholder"
-        v-model="inputSelect"
-        class="select-input"
-        @keyup.46="inputSelect = ''"
-        @keyup="preload(inputSelect)"
-        />
-        <span v-show="loading" class="icon-spin4 animate-spin"></span>
+        <span class="select-tag" v-for="(item, index) in selectedItems">
+            <span>{{item.info.name}}</span>
+            <span class="select-tag-icon icon-cancel" @click="remove(index)"/>
+        </span>
+        <input
+            type="text"
+            :placeholder="placeholder"
+            v-model="inputSelect"
+            class="select-input"
+            @keyup.46="inputSelect = ''"
+            @keyup="preload(inputSelect)"/>
+        <span v-show="loading" class="icon-spin4 animate-spin"/>
     </div>
     <transition name="fade">
       <ul class="select-content" v-show="selected">
-        <li class="select-item" v-for="item in items.items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
+        <li class="select-item" v-for="item in filterItems" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
       </ul>
     </transition>
   </div>
@@ -22,19 +25,20 @@
 
 <script>
 import { mixin as clickaway } from "vue-clickaway"
-import _ from "lodash"
+// import _ from "lodash"
 
 export default {
     mixins: [clickaway],
-    name: "select-item",
+    name: "multi-select-items",
     props: {
         placeholder: { type: String, default: "Placeholder не задан" },
-        selectedItem: { type: Object, default: {} },
-        items: { type: Object, default: { items: [] } },
+        selectedItems: { type: Array, default: [] },
+        items: { type: Array, default: [] },
         save: { type: Function, default: () => {} },
         preload: { type: Function, default: () => {} },
         loading: { type: Boolean, default: false },
-        isRequired: { type: Boolean, default: false }
+        isRequired: { type: Boolean, default: false },
+        remove: { type: Function, default: () => {} }
     },
     data () {
         return {
@@ -48,18 +52,24 @@ export default {
     computed: {
         focus () {
             return this.isRequired && this.inputSelect === ""
+        },
+
+        filterItems () {
+            const items = this.items.filter(item => {
+                for (var i = 0; i < this.selectedItems.length; i++) {
+                    if (item.id === this.selectedItems[i].id) {
+                        item.isSelect = true
+                        break
+                    }
+                    item.isSelect = false
+                }
+                return item.isSelect === false ? item : null
+            })
+            return items
         }
     },
     methods: {
         away () {
-            if (_.isEqual(this.selectedItem, {})) {
-                this.inputSelect = ""
-            } else if (this.inputSelect === "") {
-                this.save({})
-            } else if (this.inputSelect !== this.selectedItem.info.name) {
-                this.inputSelect = this.selectedItem.info.name
-            }
-
             this.selected = false
         },
 
@@ -73,13 +83,14 @@ export default {
 
         selectItem (item) {
             this.save(item)
-            this.selected = false
-            this.inputSelect = item.info.name
-            setTimeout(() => { this.preload(this.inputSelect) }, 500)
+        },
+
+        arrowClick () {
+            this.selected = !this.selected
         },
 
         componentClick () {
-            this.selected = !this.selected
+            this.selected = true
         }
     }
 }
@@ -116,14 +127,42 @@ $spiner-color: #2c820a;
             border-color: rgba(255, 0, 0, 0.5);
         }
 
+        .select-tag {
+            position: relative;
+            display: inline-block;
+            padding: 4px 26px 4px 10px;
+            border-radius: 5px;
+            margin-right: 10px;
+            color: #fff;
+            background: #20a0ff;
+            line-height: 1;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            box-sizing: border-box;
+            font-size: 14px;
 
+            .select-tag-icon {
+                cursor: pointer;
+                margin-left: 7px;
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                font-weight: 700;
+                font-style: normal;
+                width: 22px;
+                line-height: 22px;
+                transition: all .2s ease;
+                border-radius: 5px;
+            }
+        }
     }
 
     .select-input {
       position: relative;
       display: inline-block;
       font-family: sans-serif;
-      width: 100%;
+      width: auto;
       min-height: 20px;
       line-height: 20px;
       border: none;

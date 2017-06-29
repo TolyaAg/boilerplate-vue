@@ -11,8 +11,8 @@ export default new Vuex.Store({
         itemsProgramm: { items: [] },
         error: "",
         success: "",
-        selectedRegion: {},
-        itemsRegion: { items: [] },
+        selectedRegions: [],
+        itemsRegion: [],
         collabs: [],
         reason: "",
         adaptId: "",
@@ -27,6 +27,26 @@ export default new Vuex.Store({
     getters: {
         splitReasons: state => {
             return state.oldReason.split(";")
+        },
+
+        collabsWithDelay: state => {
+            if (!state.withDelay) {
+                return state.collabs
+            } else {
+                return state.collabs.filter(collab => {
+                    return collab.info.delay > 0 ? collab : null
+                })
+            }
+        },
+
+        collabsWithoutReason: (state, getters) => {
+            if (!state.withoutReason) {
+                return getters.collabsWithDelay
+            } else {
+                return getters.collabsWithDelay.filter(collab => {
+                    return collab.info.reason === "" ? collab : null
+                })
+            }
         }
     },
 
@@ -59,8 +79,12 @@ export default new Vuex.Store({
             setTimeout(function () { state.success = "" }, 1000)
         },
 
-        selectRegion: (state, region) => {
-            state.selectedRegion = region
+        selectRegion: (state, addedRegion) => {
+            state.selectedRegions.push(addedRegion)
+        },
+
+        removeRegion: (state, index) => {
+            state.selectedRegions.splice(index, 1)
         },
 
         getRegions: (state, regions) => {
@@ -124,7 +148,7 @@ export default new Vuex.Store({
                     if (data.error) {
                         commit("getError", data.error)
                     } else {
-                        commit("getRegions", data)
+                        commit("getRegions", data.items)
                     }
                 })
             commit("regionLoading")
@@ -132,8 +156,8 @@ export default new Vuex.Store({
 
         getCollabs: ({ commit, state }) => {
             commit("collabLoading")
-            const { selectedProgramm: { id: programm_id = "" } = {}, selectedRegion: { info: { name: region_name = "" } = {}} = {}, withDelay: with_delay = false, withoutReason: without_reason = false } = state
-            getVue({ ...getTemplate("notStudy", "Collabs"), programm_id, region_name, with_delay, without_reason })
+            const { selectedProgramm: { id: programm_id = "" } = {}, selectedRegion: { info: { name: region_name = "" } = {} } = {} } = state
+            getVue({ ...getTemplate("notStudy", "Collabs"), programm_id, region_name })
                 .then(resp => resp.body)
                 .then(data => {
                     if (data.error) {
@@ -147,7 +171,7 @@ export default new Vuex.Store({
         },
 
         postReason: ({ commit, state }, reason) => {
-            const { adaptId: adapt_id, selectedProgramm: { id: programm_id = "" } = {}} = state
+            const { adaptId: adapt_id, selectedProgramm: { id: programm_id = "" } = {} } = state
             postVue(getTemplate("notStudy", "Reason"), { adapt_id, reason, programm_id })
                 .then(resp => resp.body)
                 .then(data => {

@@ -10,22 +10,24 @@
                 :selectedItem="selectedProgramm"
                 :save="selectProgramm"
                 :preload="getProgramms"
-                :loading="programmsLoading"/>
+                :loading="programmsLoading"
+                :isRequired="true"/>
             <check-box  text="Показывать только с просрочкой" :value="withDelay" :action="changeDelay"/>
-            <select-item
+            <multi-select-items
                 :style="{'max-width': '65%', display: 'inline-block'}"
                 placeholder="Введите регион"
                 :items="itemsRegion"
-                :selectedItem="selectedRegion"
+                :selectedItems="selectedRegions"
                 :save="selectRegion"
                 :preload="getRegions"
-                :loading="regionsLoading"/>
+                :loading="regionsLoading"
+                :remove="removeRegion"/>
             <check-box text="Показывать только с неуказанной причиной" :value="withoutReason" :action="changeReason"/><br/>
             <custom-button text="Показать сотрудников" :action="getCollabs" :loading="collabsLoading" :disabled="programmEmpty"/>
             <alert-warning :text="error" :close="closeError"/>
             <transition name="items">
                 <ul class="container__collabs-list" v-show="collabs.length > 0 && !collabsLoading">
-                    <li v-for="collab in collabs" :class="{ 'collabs-list__item-entered': collab.isEntered, 'collabs-list__item': true }">
+                    <li v-for="collab in collabsWithoutReason" :class="{ 'collabs-list__item-entered': collab.isEntered, 'collabs-list__item': true }">
                         <div :style="{width: 100 / 3 + '%', display: 'inline-block', margin: '8px 0', 'text-align': 'left', 'box-sizing': 'border-box', 'padding-left': '8px'}">
                             <a
                                 :href="'http://study.merlion.ru/view_doc.html?mode=collaborator&object_id=' + collab.person_id"
@@ -67,6 +69,7 @@
 </template>
 
 <script>
+import MultiSelectItems from "./components/MultiSelectItems"
 import SelectItem from "./components/SelectItem"
 import CustomButton from "./components/CustomButton"
 import EnterReasonButton from "./components/special/EnterReasonButton"
@@ -88,7 +91,7 @@ export default {
         ...mapState([
             "selectedProgramm",
             "itemsProgramm",
-            "selectedRegion",
+            "selectedRegions",
             "itemsRegion",
             "error",
             "success",
@@ -102,7 +105,8 @@ export default {
         ]),
 
         ...mapGetters([
-            "splitReasons"
+            "splitReasons",
+            "collabsWithoutReason"
         ]),
 
         programmEmpty () {
@@ -116,7 +120,8 @@ export default {
             "closeError",
             "getSuccess",
             "changeReason",
-            "changeDelay"
+            "changeDelay",
+            "removeRegion"
         ]),
 
         ...mapActions([
@@ -148,7 +153,8 @@ export default {
         AlertWarning,
         AlertSuccess,
         EnterReasonButton,
-        CheckBox
+        CheckBox,
+        MultiSelectItems
     }
 }
 </script>
