@@ -38,6 +38,7 @@
                         </div>
                         <div class="not-study__item-delay">
                             {{collab.info.delay}}
+                            <div :class="{'not-study__item-status': true, 'not-study__item-status_not-dealay': collab.status == 'not_delay'}" />
                         </div>
                         <div class="not-study__item-button">
                             <enter-reason-button

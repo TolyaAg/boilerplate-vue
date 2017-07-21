@@ -63,6 +63,7 @@ $font-color: #35495e;
         text-align: center;
         border: 0px;
         border-radius: 4px;
+        line-height: 50px;
 
         &:hover {
             color: #fff;
@@ -78,7 +79,6 @@ $font-color: #35495e;
     &__item-name {
         min-width: (100% / 3); 
         display: inline-block; 
-        margin: 8px 0; 
         text-align: left; 
         box-sizing: border-box;
         padding-left: 8px;
@@ -87,14 +87,25 @@ $font-color: #35495e;
     &__item-delay {
         min-width: (100% / 3 - 1); 
         display: inline-block; 
-        margin: 8px 0; 
         box-sizing: border-box;
+    }
+
+    &__item-status {
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        float: right;
+        margin: 15px 0;
+    }
+
+    &__item-status_not-dealay {
+        background-color: #ff0;
     }
 
     &__item-button {
         min-width: (100% / 3); 
         display: inline-block; 
-        margin: 8px 0; 
         box-sizing: border-box;
     }
 
@@ -144,7 +155,7 @@ $font-color: #35495e;
         min-height: 150px;
         margin-bottom: 8px;
         font-family: sans-serif;
-        overflow: hidden;
+        overflow: auto;
         border-width: 1px;
         border-color: #a9a9a9;
     }
