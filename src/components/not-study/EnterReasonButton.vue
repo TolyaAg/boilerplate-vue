@@ -27,11 +27,11 @@ export default {
     },
     methods: {
         ...mapMutations([
-            "selectAdapt"
+            "notStudy_selectAdapt"
         ]),
         click () {
             const { adaptId, oldReason } = this
-            this.selectAdapt({ adaptId, oldReason })
+            this.notStudy_selectAdapt({ adaptId, oldReason })
             this.action()
         }
     }
@@ -42,8 +42,6 @@ export default {
 $button-primary-color: #ff5252;
 
 .custom-button {
- //    position: relative;
- //    display: inline-block;
     padding: .5em;
     border-radius: 2px;
     text-align: center;

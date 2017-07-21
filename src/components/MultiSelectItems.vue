@@ -1,26 +1,27 @@
 <template>
-  <div class="select-container" v-on-clickaway="away">
-    <div :class="[ 'select-arrow', {'select-arrow--select': selected} ]" @click="arrowClick"></div>
-    <div :class="[ 'select-tags', {'select-tags--select': selected, 'select-tags--focus': focus} ]" @click="componentClick">
-        <span class="select-tag" v-for="(item, index) in selectedItems">
-            <span>{{item.info.name}}</span>
-            <span class="select-tag-icon icon-cancel" @click="remove(index)"/>
-        </span>
-        <input
-            type="text"
-            :placeholder="placeholder"
-            v-model="inputSelect"
-            class="select-input"
-            @keyup.46="inputSelect = ''"
-            @keyup="preload(inputSelect)"/>
-        <span v-show="loading" class="icon-spin4 animate-spin"/>
+    <div class="multi-select" v-on-clickaway="away">
+        <div :class="[ 'multi-select__arrow', {'multi-select__arrow--select': selected} ]" @click="arrowClick"></div>
+        <div :class="[ 'multi-select__tags', {'multi-select__tags--select': selected, 'multi-select__tags--focus': focus} ]" @click.self="arrowClick">
+            <span class="multi-select__tag" v-for="(item, index) in selectedItems">
+                <span>{{item.info.name}}</span>
+                <span class="multi-select__icon-cancel icon-cancel" @click.stop="remove(index)"/>
+            </span>
+            <input
+                type="text"
+                :placeholder="placeholder"
+                v-model="inputSelect"
+                class="multi-select__input"
+                @keyup.46="inputSelect = ''"
+                @keyup="preload(inputSelect)"
+                @click="componentClick"/>
+            <span v-show="loading" class="multi-select__icon-spin4 icon-spin4 animate-spin"/>
+        </div>
+        <transition name="fade">
+            <ul class="multi-select__content" v-show="selected">
+                <li class="multi-select__item" v-for="item in filterItems" @click.stop="selectItem(item)">{{getTextInfo(item.info)}}</li>
+            </ul>
+        </transition>
     </div>
-    <transition name="fade">
-      <ul class="select-content" v-show="selected">
-        <li class="select-item" v-for="item in filterItems" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
-      </ul>
-    </transition>
-  </div>
 </template>
 
 <script>
@@ -55,15 +56,16 @@ export default {
         },
 
         filterItems () {
+            var isSelect = false
             const items = this.items.filter(item => {
                 for (var i = 0; i < this.selectedItems.length; i++) {
                     if (item.id === this.selectedItems[i].id) {
-                        item.isSelect = true
+                        isSelect = true
                         break
                     }
-                    item.isSelect = false
+                    isSelect = false
                 }
-                return item.isSelect === false ? item : null
+                return isSelect === false ? item : null
             })
             return items
         }
@@ -83,6 +85,7 @@ export default {
 
         selectItem (item) {
             this.save(item)
+            this.inputSelect = ""
         },
 
         arrowClick () {
@@ -99,7 +102,7 @@ export default {
 <style lang="scss" scoped>
 $spiner-color: #2c820a;
 
-  .select-container {
+.multi-select {
     box-sizing: content-box;
     display: block;
     width: 100%;
@@ -107,9 +110,8 @@ $spiner-color: #2c820a;
     text-align: left;
     position: relative;
     color: #35495e;
-    margin-bottom: 16px;
 
-    .select-tags {
+    .multi-select__tags {
         min-height: 40px;
         display: block;
         padding: 8px 40px 0 8px;
@@ -118,47 +120,47 @@ $spiner-color: #2c820a;
         box-sizing: border-box;
         transition: border-color .4s ease;
 
-        &.select-tags--select {
+        &.multi-select__tags--select {
             border-bottom-left-radius: 0px;
             border-bottom-right-radius: 0px;
         }
 
-        &.select-tags--focus {
+        &.multi-select__tags--focus {
             border-color: rgba(255, 0, 0, 0.5);
-        }
-
-        .select-tag {
-            position: relative;
-            display: inline-block;
-            padding: 4px 26px 4px 10px;
-            border-radius: 5px;
-            margin-right: 10px;
-            color: #fff;
-            background: #20a0ff;
-            line-height: 1;
-            margin-bottom: 8px;
-            white-space: nowrap;
-            box-sizing: border-box;
-            font-size: 14px;
-
-            .select-tag-icon {
-                cursor: pointer;
-                margin-left: 7px;
-                position: absolute;
-                right: 0;
-                top: 0;
-                bottom: 0;
-                font-weight: 700;
-                font-style: normal;
-                width: 22px;
-                line-height: 22px;
-                transition: all .2s ease;
-                border-radius: 5px;
-            }
         }
     }
 
-    .select-input {
+    .multi-select__tag {
+        position: relative;
+        display: inline-block;
+        padding: 4px 26px 4px 10px;
+        border-radius: 5px;
+        margin-right: 10px;
+        color: #fff;
+        background: #20a0ff;
+        line-height: 1;
+        margin-bottom: 8px;
+        white-space: nowrap;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    .multi-select__icon-cancel {
+        cursor: pointer;
+        margin-left: 7px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        font-weight: 700;
+        font-style: normal;
+        width: 22px;
+        line-height: 22px;
+        transition: all .2s ease;
+        border-radius: 5px;
+    }
+
+    .multi-select__input {
       position: relative;
       display: inline-block;
       font-family: sans-serif;
@@ -176,42 +178,41 @@ $spiner-color: #2c820a;
       color: inherit;
       outline: 0;
     }
-
-    .icon-spin4 {
-      float: right;
-      font-size: 110%;
-      color: $spiner-color;
+    
+    .multi-select__icon-spin4 {
+        float: right;
+        font-size: 110%;
+        color: $spiner-color;
     }
 
-    .select-arrow {
-      position: absolute;
-      width: 40px;
-      height: 38px;
-      right: 1px;
-      top: 1px;
-      padding: 4px 8px;
-      text-align: center;
-      transition: transform .4s ease;
-      box-sizing: border-box;
-      cursor: pointer;
-      transform-origin: center;
+    .multi-select__arrow {
+        position: absolute;
+        width: 40px;
+        height: 38px;
+        right: 1px;
+        top: 1px;
+        padding: 4px 8px;
+        text-align: center;
+        transition: transform .4s ease;
+        box-sizing: border-box;
+        cursor: pointer;
+        transform-origin: center;
 
-      &.select-arrow--select {
-        transform: rotate(180deg);
-      }
+        &.multi-select__arrow--select {
+            transform: rotate(180deg);
+        }
 
-      &:before {
-        position: relative;
-        right: 0;
-        top: 65%;
-        color: #999;
-        margin-top: 4px;
-        border-style: solid;
-        border-width: 5px 5px 0;
-        border-color: #999 transparent transparent;
-        content: "";
-      }
-
+        &:before {
+            position: relative;
+            right: 0;
+            top: 65%;
+            color: #999;
+            margin-top: 4px;
+            border-style: solid;
+            border-width: 5px 5px 0;
+            border-color: #999 transparent transparent;
+            content: "";
+        }
     }
 
     .fade-enter-active, .fade-leave-active {
@@ -223,7 +224,7 @@ $spiner-color: #2c820a;
         max-height: 0px !important;
     }
 
-    .select-content {
+    .multi-select__content {
         max-height: 300px;
         position: absolute;
         list-style: none;
@@ -238,27 +239,26 @@ $spiner-color: #2c820a;
         border-bottom-right-radius: 5px;
         z-index: 2;
         box-sizing: border-box;
-
-        .select-item {
-            display: block;
-            padding: 12px;
-            min-height: 40px;
-            line-height: 16px;
-            text-decoration: none;
-            text-transform: none;
-            vertical-align: middle;
-            position: relative;
-            cursor: pointer;
-            white-space: nowrap;
-            box-sizing: border-box;
-            font-size: 14px;
-
-            &:hover {
-                background: #20a0ff;
-                color: #fff;
-            }
-      }
     }
 
-  }
+    .multi-select__item {
+        display: block;
+        padding: 12px;
+        min-height: 40px;
+        line-height: 16px;
+        text-decoration: none;
+        text-transform: none;
+        vertical-align: middle;
+        position: relative;
+        cursor: pointer;
+        white-space: nowrap;
+        box-sizing: border-box;
+        font-size: 14px;
+
+        &:hover {
+            background: #20a0ff;
+            color: #fff;
+        }
+    }
+}
 </style>

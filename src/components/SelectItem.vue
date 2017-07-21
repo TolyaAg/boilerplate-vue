@@ -1,20 +1,19 @@
 <template>
-  <div class="select-container" v-on-clickaway="away">
-    <div :class="[ 'select-arrow', {'select-arrow--select': selected} ]" @click="componentClick"></div>
-    <div :class="[ 'select-tags', {'select-tags--select': selected, 'select-tags--focus': focus} ]" @click="componentClick">
+  <div class="select-item" v-on-clickaway="away">
+    <div :class="[ 'select-item__arrow', {'select-item__arrow--select': selected} ]" @click="componentClick"></div>
+    <div :class="[ 'select-item__tags', {'select-item__tags--select': selected, 'select-item__tags--focus': focus} ]" @click="componentClick">
       <input
         type="text"
         :placeholder="placeholder"
         v-model="inputSelect"
-        class="select-input"
+        class="select-item__input"
         @keyup.46="inputSelect = ''"
-        @keyup="preload(inputSelect)"
-        />
-        <span v-show="loading" class="icon-spin4 animate-spin"></span>
+        @keyup="preload(inputSelect)"/>
+        <span v-show="loading" class="select-item__icon-spin4 icon-spin4 animate-spin"></span>
     </div>
     <transition name="fade">
-      <ul class="select-content" v-show="selected">
-        <li class="select-item" v-for="item in items.items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
+      <ul class="select-item__content" v-show="selected">
+        <li class="select-item__item" v-for="item in items.items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
       </ul>
     </transition>
   </div>
@@ -88,7 +87,7 @@ export default {
 <style lang="scss" scoped>
 $spiner-color: #2c820a;
 
-  .select-container {
+.select-item {
     box-sizing: content-box;
     display: block;
     width: 100%;
@@ -96,9 +95,8 @@ $spiner-color: #2c820a;
     text-align: left;
     position: relative;
     color: #35495e;
-    margin-bottom: 16px;
 
-    .select-tags {
+    &__tags {
         min-height: 40px;
         display: block;
         padding: 8px 40px 0 8px;
@@ -107,72 +105,69 @@ $spiner-color: #2c820a;
         box-sizing: border-box;
         transition: border-color .4s ease;
 
-        &.select-tags--select {
+        &--select {
             border-bottom-left-radius: 0px;
             border-bottom-right-radius: 0px;
         }
 
-        &.select-tags--focus {
+        &--focus {
             border-color: rgba(255, 0, 0, 0.5);
         }
-
-
     }
 
-    .select-input {
-      position: relative;
-      display: inline-block;
-      font-family: sans-serif;
-      width: 100%;
-      min-height: 20px;
-      line-height: 20px;
-      border: none;
-      border-radius: 5px;
-      background: #fff;
-      padding: 1px 0 0 5px;
-      transition: border .1s ease;
-      font-size: 14px;
-      box-sizing: border-box;
-      margin-bottom: 8px;
-      color: inherit;
-      outline: 0;
-    }
-
-    .icon-spin4 {
-      float: right;
-      font-size: 110%;
-      color: $spiner-color;
-    }
-
-    .select-arrow {
-      position: absolute;
-      width: 40px;
-      height: 38px;
-      right: 1px;
-      top: 1px;
-      padding: 4px 8px;
-      text-align: center;
-      transition: transform .4s ease;
-      box-sizing: border-box;
-      cursor: pointer;
-      transform-origin: center;
-
-      &.select-arrow--select {
-        transform: rotate(180deg);
-      }
-
-      &:before {
+    &__input {
         position: relative;
-        right: 0;
-        top: 65%;
-        color: #999;
-        margin-top: 4px;
-        border-style: solid;
-        border-width: 5px 5px 0;
-        border-color: #999 transparent transparent;
-        content: "";
-      }
+        display: inline-block;
+        font-family: sans-serif;
+        width: 100%;
+        min-height: 20px;
+        line-height: 20px;
+        border: none;
+        border-radius: 5px;
+        background: #fff;
+        padding: 1px 0 0 5px;
+        transition: border .1s ease;
+        font-size: 14px;
+        box-sizing: border-box;
+        margin-bottom: 8px;
+        color: inherit;
+        outline: 0;
+    }
 
+    &__icon-spin4 {
+        float: right;
+        font-size: 110%;
+        color: $spiner-color;
+    }
+
+    &__arrow {
+        position: absolute;
+        width: 40px;
+        height: 38px;
+        right: 1px;
+        top: 1px;
+        padding: 4px 8px;
+        text-align: center;
+        transition: transform .4s ease;
+        box-sizing: border-box;
+        cursor: pointer;
+        transform-origin: center;
+
+        &--select {
+            transform: rotate(180deg);
+        }
+
+        &:before {
+            position: relative;
+            right: 0;
+            top: 65%;
+            color: #999;
+            margin-top: 4px;
+            border-style: solid;
+            border-width: 5px 5px 0;
+            border-color: #999 transparent transparent;
+            content: "";
+        }
     }
 
     .fade-enter-active, .fade-leave-active {
@@ -184,7 +179,7 @@ $spiner-color: #2c820a;
         max-height: 0px !important;
     }
 
-    .select-content {
+    &__content {
         max-height: 300px;
         position: absolute;
         list-style: none;
@@ -199,27 +194,26 @@ $spiner-color: #2c820a;
         border-bottom-right-radius: 5px;
         z-index: 2;
         box-sizing: border-box;
-
-        .select-item {
-            display: block;
-            padding: 12px;
-            min-height: 40px;
-            line-height: 16px;
-            text-decoration: none;
-            text-transform: none;
-            vertical-align: middle;
-            position: relative;
-            cursor: pointer;
-            white-space: nowrap;
-            box-sizing: border-box;
-            font-size: 14px;
-
-            &:hover {
-                background: #20a0ff;
-                color: #fff;
-            }
-      }
     }
 
-  }
+    &__item {
+        display: block;
+        padding: 12px;
+        min-height: 40px;
+        line-height: 16px;
+        text-decoration: none;
+        text-transform: none;
+        vertical-align: middle;
+        position: relative;
+        cursor: pointer;
+        white-space: nowrap;
+        box-sizing: border-box;
+        font-size: 14px;
+
+        &:hover {
+            background: #20a0ff;
+            color: #fff;
+        }
+    }
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div class="alert" v-if="text != ''">
 		{{ text }}
-		<button class="close-button" @click="close">&times;</button>
+		<button class="alert__close-button" @click="close">&times;</button>
 	</div>
 </template>
 
@@ -25,9 +25,9 @@ $alert-danger-color: #f2dede;
 		color: darken($alert-danger-color, 60%);
         background-color: $alert-danger-color;
         border-color: darken($alert-danger-color, 10%);
-        margin: 8px 0;
+        // margin: 8px 0;
 
-        .close-button {
+        .alert__close-button {
 			outline: 0;
 			margin-top: -2px;
 			padding: 0 0 0 8px;

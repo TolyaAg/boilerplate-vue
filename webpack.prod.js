@@ -17,7 +17,7 @@ module.exports = {
         library: "[name]"
     },
     resolve: {
-        modules: ["node_modules"],
+        modules: ["node_modules", "./src/components"],
         extensions: [".js", ".vue", ".json"]
     },
     module: {

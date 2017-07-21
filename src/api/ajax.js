@@ -22,7 +22,8 @@ export const getVue = (params) => {
         customBaseUrl,
         {
             params,
-            credentials: true
+            credentials: true,
+            emulateJSON: true
         }
     )
 }

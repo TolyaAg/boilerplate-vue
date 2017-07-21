@@ -1,7 +1,7 @@
 <template>
     <transition name="alert-success">
-        <div class="alert-container" v-if="text != ''">
-            <div class="alert">
+        <div class="alert" v-if="text != ''">
+            <div class="alert__text">
                 {{ text }}
             </div>
         </div>
@@ -28,13 +28,13 @@ $alert-success-color: #dff0d8;
     opacity: 0;
 }
 
-.alert-container {
+.alert {
     position: absolute;
     z-index: 100;
     display: block;
     width: 100%;
 
-    .alert {
+    .alert__text {
         padding: 8px;
         border: 1px solid transparent;
         border-radius: 4px;
