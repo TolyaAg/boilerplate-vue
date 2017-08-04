@@ -45,6 +45,7 @@ $button-primary-color: #ff5252;
     color: #fff;
     transition: all .2s;
     min-width: 155px;
+    font-size: 13px;
 
     &--selected {
         border: 1px solid darken($button-primary-color, 30%);

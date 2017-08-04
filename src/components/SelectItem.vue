@@ -1,22 +1,22 @@
 <template>
-  <div class="select-item" v-on-clickaway="away">
-    <div :class="[ 'select-item__arrow', {'select-item__arrow--select': selected} ]" @click="componentClick"></div>
-    <div :class="[ 'select-item__tags', {'select-item__tags--select': selected, 'select-item__tags--focus': focus} ]" @click="componentClick">
-      <input
-        type="text"
-        :placeholder="placeholder"
-        v-model="inputSelect"
-        class="select-item__input"
-        @keyup.46="inputSelect = ''"
-        @keyup="preload(inputSelect)"/>
-        <span v-show="loading" class="select-item__icon-spin4 icon-spin4 animate-spin"></span>
+    <div class="select-item" v-on-clickaway="away">
+        <div :class="[ 'select-item__arrow', {'select-item__arrow--select': selected} ]" @click="componentClick"></div>
+        <div :class="[ 'select-item__tags', {'select-item__tags--select': selected, 'select-item__tags--focus': focus} ]" @click="componentClick">
+            <input
+                type="text"
+                :placeholder="placeholder"
+                v-model="inputSelect"
+                class="select-item__tags__input"
+                @keyup.46="inputSelect = ''"
+                @keyup="preload(inputSelect)"/>
+            <span v-show="loading" class="select-item__tags__icon-spin4 icon-spin4 animate-spin"></span>
+        </div>
+        <transition name="select-item__fade">
+            <ul class="select-item__content" v-show="selected">
+                <li class="select-item__content__item" v-for="item in items.items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
+            </ul>
+        </transition>
     </div>
-    <transition name="fade">
-      <ul class="select-item__content" v-show="selected">
-        <li class="select-item__item" v-for="item in items.items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
-      </ul>
-    </transition>
-  </div>
 </template>
 
 <script>
@@ -28,8 +28,8 @@ export default {
     name: "select-item",
     props: {
         placeholder: { type: String, default: "Placeholder не задан" },
-        selectedItem: { type: Object, default: {} },
-        items: { type: Object, default: { items: [] } },
+        selectedItem: { type: Object, default: () => {} },
+        items: { type: Object, default: function () { return { items: [] } } },
         save: { type: Function, default: () => {} },
         preload: { type: Function, default: () => {} },
         loading: { type: Boolean, default: false },
@@ -113,31 +113,31 @@ $spiner-color: #2c820a;
         &--focus {
             border-color: rgba(255, 0, 0, 0.5);
         }
-    }
 
-    &__input {
-        position: relative;
-        display: inline-block;
-        font-family: sans-serif;
-        width: 100%;
-        min-height: 20px;
-        line-height: 20px;
-        border: none;
-        border-radius: 5px;
-        background: #fff;
-        padding: 1px 0 0 5px;
-        transition: border .1s ease;
-        font-size: 14px;
-        box-sizing: border-box;
-        margin-bottom: 8px;
-        color: inherit;
-        outline: 0;
-    }
+        &__input {
+            position: relative;
+            display: inline-block;
+            font-family: sans-serif;
+            width: 100%;
+            min-height: 20px;
+            line-height: 20px;
+            border: none;
+            border-radius: 5px;
+            background: #fff;
+            padding: 1px 0 0 5px;
+            transition: border .1s ease;
+            font-size: 14px;
+            box-sizing: border-box;
+            margin-bottom: 8px;
+            color: inherit;
+            outline: 0;
+        }
 
-    &__icon-spin4 {
-        float: right;
-        font-size: 110%;
-        color: $spiner-color;
+        &__icon-spin4 {
+            float: right;
+            font-size: 110%;
+            color: $spiner-color;
+        }
     }
 
     &__arrow {
@@ -170,12 +170,12 @@ $spiner-color: #2c820a;
         }
     }
 
-    .fade-enter-active, .fade-leave-active {
+    &__fade-enter-active, &__fade-leave-active {
         transition: all .4s ease;
         overflow: hidden !important;
     }
 
-    .fade-enter, .fade-leave-to {
+    &__fade-enter, &__fade-leave-to {
         max-height: 0px !important;
     }
 
@@ -194,25 +194,25 @@ $spiner-color: #2c820a;
         border-bottom-right-radius: 5px;
         z-index: 2;
         box-sizing: border-box;
-    }
 
-    &__item {
-        display: block;
-        padding: 12px;
-        min-height: 40px;
-        line-height: 16px;
-        text-decoration: none;
-        text-transform: none;
-        vertical-align: middle;
-        position: relative;
-        cursor: pointer;
-        white-space: nowrap;
-        box-sizing: border-box;
-        font-size: 14px;
+        &__item {
+            display: block;
+            padding: 12px;
+            min-height: 40px;
+            line-height: 16px;
+            text-decoration: none;
+            text-transform: none;
+            vertical-align: middle;
+            position: relative;
+            cursor: pointer;
+            white-space: nowrap;
+            box-sizing: border-box;
+            font-size: 14px;
 
-        &:hover {
-            background: #20a0ff;
-            color: #fff;
+            &:hover {
+                background: #20a0ff;
+                color: #fff;
+            }
         }
     }
 }

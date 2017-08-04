@@ -1,4 +1,4 @@
-import { postVue, getVue } from "../../api/ajax"
+import { getAxios, postAxios } from "../../api/ajax"
 import { getTemplate } from "../../api/servers.js"
 
 const state = {
@@ -123,8 +123,7 @@ const mutations = {
 const actions = {
     notStudy_getProgramms: ({ commit }, search) => {
         commit("notStudy_programmLoading")
-        getVue({ ...getTemplate("notStudy", "Programms"), search })
-            .then(resp => resp.body)
+        getAxios({ ...getTemplate("notStudy", "Programms"), search })
             .then(data => {
                 if (data.error) {
                     commit("notStudy_getError", data.error)
@@ -137,8 +136,7 @@ const actions = {
 
     notStudy_getRegions: ({ commit }, search) => {
         commit("notStudy_regionLoading")
-        getVue({ ...getTemplate("notStudy", "Regions"), search })
-            .then(resp => resp.body)
+        getAxios({ ...getTemplate("notStudy", "Regions"), search })
             .then(data => {
                 if (data.error) {
                     commit("notStudy_getError", data.error)
@@ -153,8 +151,7 @@ const actions = {
         commit("notStudy_collabLoading")
         const region_name = state.selectedRegions.map((region) => { return region.info.name }).join("','")
         const { selectedProgramm: { id: programm_id = "" } = {} } = state
-        getVue({ ...getTemplate("notStudy", "Collabs"), programm_id, region_name })
-            .then(resp => resp.body)
+        getAxios({ ...getTemplate("notStudy", "Collabs"), programm_id, region_name })
             .then(data => {
                 if (data.error) {
                     commit("notStudy_getError", data.error)
@@ -168,8 +165,7 @@ const actions = {
 
     notStudy_postReason: ({ commit, state }, reason) => {
         const { adaptId: adapt_id, selectedProgramm: { id: programm_id = "" } = {} } = state
-        postVue(getTemplate("notStudy", "Reason"), { adapt_id, reason, programm_id })
-            .then(resp => resp.body)
+        postAxios(getTemplate("notStudy", "Reason"), { adapt_id, reason, programm_id })
             .then(data => {
                 if (data.error) {
                     commit("notStudy_getError", data.error)

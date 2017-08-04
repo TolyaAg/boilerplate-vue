@@ -4,9 +4,10 @@
         <div :class="[ 'multi-select__tags', {'multi-select__tags--select': selected, 'multi-select__tags--focus': focus} ]" @click.self="arrowClick">
             <span class="multi-select__tag" v-for="(item, index) in selectedItems">
                 <span>{{item.info.name}}</span>
-                <span class="multi-select__icon-cancel icon-cancel" @click.stop="remove(index)"/>
+                <span class="multi-select__icon-cancel icon-cancel" @click.stop="removeItem(index)"/>
             </span>
             <input
+                ref="input"
                 type="text"
                 :placeholder="placeholder"
                 v-model="inputSelect"
@@ -84,16 +85,24 @@ export default {
         },
 
         selectItem (item) {
+            this.preload("")
             this.save(item)
             this.inputSelect = ""
+            this.$refs.input.focus()
         },
 
         arrowClick () {
             this.selected = !this.selected
+            this.$refs.input.focus()
         },
 
         componentClick () {
             this.selected = true
+        },
+
+        removeItem (index) {
+            this.remove(index)
+            this.$refs.input.focus()
         }
     }
 }
@@ -119,6 +128,7 @@ $spiner-color: #2c820a;
         border: 1px solid #e8e8e8;
         box-sizing: border-box;
         transition: border-color .4s ease;
+        cursor: pointer;
 
         &.multi-select__tags--select {
             border-bottom-left-radius: 0px;
@@ -178,7 +188,7 @@ $spiner-color: #2c820a;
       color: inherit;
       outline: 0;
     }
-    
+
     .multi-select__icon-spin4 {
         float: right;
         font-size: 110%;
