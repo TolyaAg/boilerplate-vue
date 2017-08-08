@@ -201,3 +201,38 @@ $font-color: #35495e;
         opacity: 0
     }
 }
+
+@media only screen and (min-width : 320px) and (max-width : 480px) {
+    .not-study {
+
+        &__container {
+            
+            &__select-item {
+                max-width: 100%;
+            }
+
+            &__multi-select {
+                max-width: 100%;
+            }
+
+            &__collabs-list {
+
+                &__item {
+
+                    &__item-name {
+                        min-width: 100%;
+                        text-align: center;
+                    }
+
+                    &__item-delay {
+                        min-width: 50%;
+                    }
+
+                    &__item-button {
+                        min-width: 50%;
+                    }
+                }
+            }
+        }
+    }
+}

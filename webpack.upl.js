@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const projectConfig = require("./project.config.js")
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin")
 
+console.log(projectConfig.remotePath)
+
 module.exports = {
     entry: {
         "app": "./src/main.js",

@@ -1,8 +1,6 @@
 <template>
     <div>
         <not-study></not-study>
-        <time-picker></time-picker>
-        <time-input></time-input>
     </div>
 </template>
 
