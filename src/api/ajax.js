@@ -4,6 +4,7 @@ import axios from "axios"
 import querystring from "querystring"
 
 const customBaseUrl = process.env.NODE_ENV === "production" ? "/custom_web_template.html" : "http://study.merlion.ru/custom_web_template.html"
+
 // console.log(process.env.NODE_ENV)
 // Vue.use(VueRecource)
 

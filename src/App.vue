@@ -1,20 +1,16 @@
 <template>
     <div>
-        <not-study></not-study>
+        <change-hr></change-hr>
     </div>
 </template>
 
 <script>
-import NotStudy from "not-study/NotStudy"
-import TimePicker from "TimePicker"
-import TimeInput from "TimeInput"
+import ChangeHr from "requests/change-hr/ChangeHr"
 
 export default {
     name: "app",
     components: {
-        NotStudy,
-        TimePicker,
-        TimeInput
+        ChangeHr
     }
 }
 </script>

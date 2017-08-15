@@ -3,7 +3,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const projectConfig = require("./project.config.js")
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin")
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 
 module.exports = {
     entry: {
@@ -17,7 +17,7 @@ module.exports = {
         library: "[name]"
     },
     resolve: {
-        modules: ["node_modules", "./src/components"],
+        modules: ["node_modules", "./src/components", "src/api"],
         extensions: [".js", ".vue", ".json"]
     },
     module: {

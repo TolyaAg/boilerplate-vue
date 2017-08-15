@@ -2,6 +2,7 @@
     <div class="select-item" v-on-clickaway="away">
         <div :class="[ 'select-item__arrow', {'select-item__arrow--select': selected} ]" @click="componentClick"></div>
         <div :class="[ 'select-item__tags', {'select-item__tags--select': selected, 'select-item__tags--focus': focus} ]" @click="componentClick">
+            <div class="select-item__tags__label">{{title}}</div>
             <input
                 type="text"
                 :placeholder="placeholder"
@@ -13,7 +14,7 @@
         </div>
         <transition name="select-item__fade">
             <ul class="select-item__content" v-show="selected">
-                <li class="select-item__content__item" v-for="item in items.items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
+                <li class="select-item__content__item" v-for="item in items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
             </ul>
         </transition>
     </div>
@@ -28,8 +29,9 @@ export default {
     name: "select-item",
     props: {
         placeholder: { type: String, default: "Placeholder не задан" },
+        title: { type: String, default: "Title не задан" },
         selectedItem: { type: Object, default: () => {} },
-        items: { type: Object, default: function () { return { items: [] } } },
+        items: { type: Array, default: () => [] },
         save: { type: Function, default: () => {} },
         preload: { type: Function, default: () => {} },
         loading: { type: Boolean, default: false },
@@ -47,6 +49,14 @@ export default {
     computed: {
         focus () {
             return this.isRequired && this.inputSelect === ""
+        }
+    },
+    watch: {
+        selectedItem () {
+            if (_.isEqual(this.selectedItem, {})) {
+                this.inputSelect = ""
+                this.preload(this.inputSelect)
+            }
         }
     },
     methods: {
@@ -114,6 +124,12 @@ $spiner-color: #2c820a;
             border-color: rgba(255, 0, 0, 0.5);
         }
 
+        &__label {
+            display: inline-block;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+
         &__input {
             position: relative;
             display: inline-block;
@@ -128,7 +144,7 @@ $spiner-color: #2c820a;
             transition: border .1s ease;
             font-size: 14px;
             box-sizing: border-box;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             color: inherit;
             outline: 0;
         }
@@ -143,7 +159,7 @@ $spiner-color: #2c820a;
     &__arrow {
         position: absolute;
         width: 40px;
-        height: 38px;
+        height: 100%;
         right: 1px;
         top: 1px;
         padding: 4px 8px;
@@ -160,7 +176,7 @@ $spiner-color: #2c820a;
         &:before {
             position: relative;
             right: 0;
-            top: 65%;
+            top: 55%;
             color: #999;
             margin-top: 4px;
             border-style: solid;

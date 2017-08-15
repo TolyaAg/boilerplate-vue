@@ -10,6 +10,8 @@ const addTemp = (temp) => {
 }
 
 addTemp({ id: "6423618230641905130", name: "notStudy" })
+addTemp({ id: "6452938387362234693", name: "addMentor" })
+addTemp({ id: "6454142198588784692", name: "changeHr" })
 
 export const getAll = () => {
     return templates
