@@ -1,16 +1,16 @@
 <template>
     <div>
-        <change-hr></change-hr>
+        <not-study></not-study>
     </div>
 </template>
 
 <script>
-import ChangeHr from "requests/change-hr/ChangeHr"
+import NotStudy from "not-study/NotStudy"
 
 export default {
     name: "app",
     components: {
-        ChangeHr
+        NotStudy
     }
 }
 </script>

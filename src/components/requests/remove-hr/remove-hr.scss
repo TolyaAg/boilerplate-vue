@@ -1,0 +1,31 @@
+$font-color: #35495e;
+
+.remove-hr {
+    box-shadow: 2px 2px 10px 0 #979797;
+    font-family: sans-serif !important;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+
+    &__title {
+        background-color: #646464;
+        color: #fff;
+        padding: 20px 0 20px 8px;
+    }
+
+    &__container {
+        padding: 8px;
+        transition: max-height .8s ease-in-out;
+        position: relative;
+
+        &__select-item {
+            display: inline-block !important;
+            margin-bottom: 16px;
+        }
+
+        &__alert {
+            margin: 8px 0;
+        } 
+
+    }
+}

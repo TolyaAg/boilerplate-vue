@@ -3,7 +3,7 @@ import { getTemplate } from "../../api/servers.js"
 
 const state = {
     selectedProgramm: {},
-    itemsProgramm: { items: [] },
+    itemsProgramm: [],
     error: "",
     success: "",
     selectedRegions: [],
@@ -128,7 +128,7 @@ const actions = {
                 if (data.error) {
                     commit("notStudy_getError", data.error)
                 } else {
-                    commit("notStudy_getProgramms", data)
+                    commit("notStudy_getProgramms", data.items)
                 }
             })
         commit("notStudy_programmLoading")

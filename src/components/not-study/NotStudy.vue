@@ -5,7 +5,8 @@
         <div class="not-study__container">
             <select-item
                 class="not-study__container__select-item"
-                placeholder="Введите учебную программу"
+                title="Учебная программа"
+                placeholder="Введите название"
                 :items="notStudy.itemsProgramm"
                 :selectedItem="notStudy.selectedProgramm"
                 :save="notStudy_selectProgramm"

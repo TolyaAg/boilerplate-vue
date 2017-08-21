@@ -9,11 +9,11 @@
                 v-model="inputSelect"
                 class="select-item__tags__input"
                 @keyup.46="inputSelect = ''"
-                @keyup="preload(inputSelect)"/>
+                @keyup="newInput()"/>
             <span v-show="loading" class="select-item__tags__icon-spin4 icon-spin4 animate-spin"></span>
         </div>
         <transition name="select-item__fade">
-            <ul class="select-item__content" v-show="selected">
+            <ul class="select-item__content" v-show="inputSelect.length > 2 && selected === true">
                 <li class="select-item__content__item" v-for="item in items" @click="selectItem(item)">{{getTextInfo(item.info)}}</li>
             </ul>
         </transition>
@@ -89,6 +89,11 @@ export default {
 
         componentClick () {
             this.selected = !this.selected
+        },
+
+        newInput () {
+            this.preload(this.inputSelect)
+            this.selected = true
         }
     }
 }

@@ -23,7 +23,7 @@
                 :preload="changeHr_getReplacings"
                 :loading="changeHr.mentorsLoading"
                 :isRequired="true"/>
-            <custom-button text="Назначить менеджера по персоналу" :action="changeHr_postReplacings" :loading="changeHr.collabsLoading" :disabled="collabsEmpty"/>
+            <custom-button text="Назначить ответственного" :action="changeHr_postReplacings" :loading="changeHr.collabsLoading" :disabled="collabsEmpty"/>
             <alert-warning class="change-hr__container__alert" :text="changeHr.error" :close="changeHr_closeError"/>
         </div>
     </div>
@@ -45,7 +45,7 @@ export default {
         ]),
 
         collabsEmpty () {
-            return _.isEqual(this.changeHr.selectedCollab, {}) || _.isEqual(this.changeHr.selectedMentor, {})
+            return _.isEqual(this.changeHr.selectedReplaceable, {}) || _.isEqual(this.changeHr.selectedReplacing, {})
         }
     },
     methods: {
