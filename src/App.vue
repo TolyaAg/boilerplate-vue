@@ -1,16 +1,16 @@
 <template>
     <div>
-        <not-study></not-study>
+        <time-input></time-input>
     </div>
 </template>
 
 <script>
-import NotStudy from "not-study/NotStudy"
+import TimeInput from "TimeInput"
 
 export default {
     name: "app",
     components: {
-        NotStudy
+        TimeInput
     }
 }
 </script>

@@ -202,7 +202,7 @@ $font-color: #35495e;
     }
 }
 
-@media only screen and (min-width : 320px) and (max-width : 480px) {
+@media only screen and (min-width : 290px) and (max-width : 922px) {
     .not-study {
 
         &__container {
@@ -213,6 +213,10 @@ $font-color: #35495e;
 
             &__multi-select {
                 max-width: 100%;
+            }
+
+            &__checkbox {
+                margin-bottom: 16px;
             }
 
             &__collabs-list {

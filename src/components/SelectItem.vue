@@ -1,6 +1,6 @@
 <template>
     <div class="select-item" v-on-clickaway="away">
-        <div :class="[ 'select-item__arrow', {'select-item__arrow--select': selected} ]" @click="componentClick"></div>
+        <div :class="[ 'select-item__arrow', {'select-item__arrow--select': selected && inputSelect.length > 2} ]" @click="componentClick"></div>
         <div :class="[ 'select-item__tags', {'select-item__tags--select': selected, 'select-item__tags--focus': focus} ]" @click="componentClick">
             <div class="select-item__tags__label">{{title}}</div>
             <input
@@ -139,7 +139,7 @@ $spiner-color: #2c820a;
             position: relative;
             display: inline-block;
             font-family: sans-serif;
-            width: 100%;
+            // width: 100%;
             min-height: 20px;
             line-height: 20px;
             border: none;
