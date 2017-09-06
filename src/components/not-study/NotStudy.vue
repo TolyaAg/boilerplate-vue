@@ -85,12 +85,12 @@
 </template>
 
 <script>
-import MultiSelectItems from "MultiSelectItems"
-import SelectItem from "SelectItem"
+import MultiSelectItems from "multi-select-items"
+import SelectItem from "select-item"
 import CustomButton from "CustomButton"
-import EnterReasonButton from "not-study/EnterReasonButton"
-import AlertWarning from "AlertWarning"
-import AlertSuccess from "AlertSuccess"
+import EnterReasonButton from "./enter-reason-button"
+import AlertWarning from "alert-warning"
+import AlertSuccess from "alert-success"
 import CheckBox from "CheckBox"
 import _ from "lodash"
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex"

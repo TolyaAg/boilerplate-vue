@@ -15,7 +15,7 @@ $font-color: #35495e;
 
     &__container {
         padding: 8px;
-        transition: max-height .8s ease-in-out;
+        transition: max-height 0.8s ease-in-out;
         position: relative;
 
         &__select-item {
@@ -36,16 +36,18 @@ $font-color: #35495e;
 
         &__alert {
             margin: 8px 0;
-        } 
+        }
 
-        &__items-enter-active, &__items-leave-active {
-            transition: all .5s ease-in-out;
+        &__items-enter-active,
+        &__items-leave-active {
+            transition: all 0.5s ease-in-out;
             overflow: hidden !important;
         }
 
-        &__items-enter, &__items-leave-to {
-            max-height: 0px !important;
-        }  
+        &__items-enter,
+        &__items-leave-to {
+            max-height: 0 !important;
+        }
 
         &__collabs-list {
             overflow: auto;
@@ -59,7 +61,7 @@ $font-color: #35495e;
 
             &__item {
                 text-align: center;
-                border: 0px;
+                border: 0;
                 border-radius: 4px;
                 line-height: 50px;
 
@@ -120,7 +122,7 @@ $font-color: #35495e;
     &__modal {
         width: 100%;
         height: 100%;
-        background-color: rgba(91,91,91,.5);
+        background-color: rgba(91, 91, 91, 0.5);
         position: absolute;
         top: 0;
         z-index: 100;
@@ -153,7 +155,7 @@ $font-color: #35495e;
                     color: #000;
                     text-shadow: 0 1px 0 #fff;
                     filter: alpha(opacity=20);
-                    opacity: .2;
+                    opacity: 0.2;
                 }
             }
 
@@ -193,20 +195,20 @@ $font-color: #35495e;
         }
     }
 
-    &__modal-enter-active, &__modal-leave-active {
-        transition: opacity .2s
+    &__modal-enter-active,
+    &__modal-leave-active {
+        transition: opacity 0.2s;
     }
 
-    &__modal-enter, &__modal-leave-to {
-        opacity: 0
+    &__modal-enter,
+    &__modal-leave-to {
+        opacity: 0;
     }
 }
 
-@media only screen and (min-width : 290px) and (max-width : 922px) {
+@media only screen and (min-width: 290px) and (max-width: 922px) {
     .not-study {
-
         &__container {
-            
             &__select-item {
                 max-width: 100%;
             }
@@ -220,9 +222,7 @@ $font-color: #35495e;
             }
 
             &__collabs-list {
-
                 &__item {
-
                     &__item-name {
                         min-width: 100%;
                         text-align: center;

@@ -15,7 +15,7 @@ $font-color: #35495e;
 
     &__container {
         padding: 8px;
-        transition: max-height .8s ease-in-out;
+        transition: max-height 0.8s ease-in-out;
         position: relative;
 
         &__select-item {
@@ -25,7 +25,6 @@ $font-color: #35495e;
 
         &__alert {
             margin: 8px 0;
-        } 
-
+        }
     }
 }

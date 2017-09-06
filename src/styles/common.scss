@@ -1,0 +1,20 @@
+body {
+    scrollbar-face-color: rgba(153, 162, 173, 0.3);
+    scrollbar-arrow-color: rgba(153, 162, 173, 0.3);
+    font-family: sans-serif !important;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(64, 71, 80, 0.3);
+    border-radius: 5px;
+    display: block;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: darken(rgba(64, 71, 80, 0.3), 20%);
+    }
+}

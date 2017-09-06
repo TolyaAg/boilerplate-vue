@@ -2,6 +2,7 @@ const webpack = require("webpack")
 const path = require("path")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const StyleLintPlugin = require('stylelint-webpack-plugin')
 
 module.exports = {
     entry: {
@@ -15,7 +16,7 @@ module.exports = {
         library: "[name]"
     },
     resolve: {
-        modules: ["node_modules", "src/components", "src/api"],
+        modules: ["node_modules", "src/components", "src/api", "src/components/modules"],
         extensions: [".js", ".vue", ".json"]
     },
 
@@ -107,7 +108,9 @@ module.exports = {
             "process.env": {
                 NODE_ENV: JSON.stringify("development")
             }
+        }),
+        new StyleLintPlugin({
+            configFile: "stylelintrc.json"
         })
     ]
-
 }

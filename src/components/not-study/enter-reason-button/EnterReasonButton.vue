@@ -38,32 +38,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-$button-primary-color: #ff5252;
-
-.custom-button {
-    padding: .5em;
-    border-radius: 2px;
-    text-align: center;
-    cursor: pointer;
-    outline: 0;
-    vertical-align: middle;
-    background-color: $button-primary-color;
-    border: 1px solid darken($button-primary-color, 10%);
-    color: #fff;
-    transition: all .2s;
-    min-width: 155px;
-    line-height: normal;
-    font-size: 13px;
-
-    &--selected {
-        border: 1px solid darken($button-primary-color, 30%);
-        background-color: darken($button-primary-color, 20%);
-    }
-
-    &--disabled {
-        background-color: #bababa !important;
-        border: 1px solid darken(#bababa, 10%) !important;
-    }
-}
-</style>
+<style lang="scss" src="./enter-reason-button.scss" scoped></style>
