@@ -3,7 +3,7 @@ const path = require("path")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin")
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 
 // console.log("remote path: %s and %s", projectConfig.remotePath, path.isAbsolute(projectConfig.remotePath))
 

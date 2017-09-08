@@ -39,9 +39,9 @@
                         </div><div class="not-study__container__collabs-list__item__item-delay">
                             {{collab.info.delay}}
                             <div :class="{
-                                'not-study__container__collabs-list__item__item-delay__item-status': true, 
-                                'not-study__container__collabs-list__item__item-delay__item-status--need-test': collab.status == 'need_test', 
-                                'not-study__container__collabs-list__item__item-delay__item-status--not-delay': collab.status == 'not_delay', 
+                                'not-study__container__collabs-list__item__item-delay__item-status': true,
+                                'not-study__container__collabs-list__item__item-delay__item-status--need-test': collab.status == 'need_test',
+                                'not-study__container__collabs-list__item__item-delay__item-status--not-delay': collab.status == 'not_delay',
                                 'not-study__container__collabs-list__item__item-delay__item-status--delay': collab.status == 'delay'}">
                             </div>
                         </div><div class="not-study__container__collabs-list__item__item-button">
@@ -63,17 +63,17 @@
                         <button class="not-study__modal__enter-comment__title__close-button" @click="closeCommentWindow">&times;</button>
                     </div>
                     <div class="not-study__modal__enter-comment__container">
-                        <textarea 
-                            readonly 
-                            v-for="reason in notStudy_splitReasons" 
-                            v-show="reason != ''" 
-                            :value="reason.trim()" 
+                        <textarea
+                            readonly
+                            v-for="reason in notStudy_splitReasons"
+                            v-show="reason != ''"
+                            :value="reason.trim()"
                             class="not-study__modal__enter-comment__container__textarea-readonly" title="Старые причины">
                         </textarea>
-                        <textarea 
-                            ref="reason" 
-                            v-model="reason" 
-                            class="not-study__modal__enter-comment__container__textarea-input" 
+                        <textarea
+                            ref="reason"
+                            v-model="reason"
+                            class="not-study__modal__enter-comment__container__textarea-input"
                             placeholder="Напишите причину">
                         </textarea>
                         <custom-button text="Внести причину" :action="enterReason" :disabled="reason.trim() == ''"/>
@@ -91,7 +91,7 @@ import CustomButton from "CustomButton"
 import EnterReasonButton from "./enter-reason-button"
 import AlertWarning from "alert-warning"
 import AlertSuccess from "alert-success"
-import CheckBox from "CheckBox"
+import CheckBox from "check-box"
 import _ from "lodash"
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex"
 
