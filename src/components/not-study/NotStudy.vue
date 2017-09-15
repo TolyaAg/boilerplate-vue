@@ -28,7 +28,11 @@
             <alert-warning class="not-study__container__alert" :text="notStudy.error" :close="notStudy_closeError"/>
             <transition name="not-study__container__items">
                 <ul class="not-study__container__collabs-list" v-show="notStudy.collabs.length > 0 && !notStudy.collabsLoading">
-                    <li v-for="collab in notStudy_collabsWithoutReason" :class="{ 'not-study__container__collabs-list__item--entered': collab.isEntered, 'not-study__container__collabs-list__item': true }">
+                    <li v-for="collab in notStudy_collabsWithoutReason" 
+                        :class="{ 
+                            'not-study__container__collabs-list__item--entered': collab.isEntered, 
+                            'not-study__container__collabs-list__item': true 
+                            }">
                         <div class="not-study__container__collabs-list__item__item-name">
                             <a
                                 :href="'http://study.merlion.ru/view_doc.html?mode=collaborator&object_id=' + collab.person_id"

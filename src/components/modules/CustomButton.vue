@@ -53,6 +53,7 @@ $button-primary-color: #ff5252;
     }
 
     &--disabled {
+        cursor: default;
         background-color: #bababa !important;
         border: 1px solid darken(#bababa, 10%) !important;
     }
