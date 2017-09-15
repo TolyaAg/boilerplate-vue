@@ -85,10 +85,10 @@ export default {
         },
 
         selectItem (item) {
-            this.preload("")
-            this.save(item)
             this.inputSelect = ""
+            this.save(item)
             this.$refs.input.focus()
+            // this.preload("")
         },
 
         arrowClick () {

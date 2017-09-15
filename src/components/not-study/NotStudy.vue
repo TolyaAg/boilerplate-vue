@@ -91,7 +91,7 @@
 <script>
 import MultiSelectItems from "multi-select-items"
 import SelectItem from "select-item"
-import CustomButton from "CustomButton"
+import CustomButton from "custom-button"
 import EnterReasonButton from "./enter-reason-button"
 import AlertWarning from "alert-warning"
 import AlertSuccess from "alert-success"
