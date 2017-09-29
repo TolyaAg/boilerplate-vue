@@ -1,16 +1,18 @@
 <template>
     <div>
-        <not-study></not-study>
+        <changeLibraryMaterial></changeLibraryMaterial>
+        <!-- <not-study></not-study> -->
     </div>
 </template>
 
 <script>
-import NotStudy from "not-study"
+import changeLibraryMaterial from "./components/requests/change-library"
+// import NotStudy from "not-study"
 
 export default {
     name: "app",
     components: {
-        NotStudy
+        changeLibraryMaterial
     }
 }
 </script>

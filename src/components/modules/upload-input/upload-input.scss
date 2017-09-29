@@ -1,0 +1,35 @@
+@import "../../../styles/_variables.scss";
+
+.upload {
+    position: relative;
+
+    &__input {
+        position: absolute;
+        left: -9999px;
+    }
+
+    &__btn {
+        display: inline-block;
+        min-width: 155px;
+        padding: 0.5em;
+        vertical-align: middle;
+        background-color: $button-primary-color;
+        outline: 0;
+        border: 1px solid darken($button-primary-color, 10%);
+        border-radius: 2px;
+        text-align: center;
+        font-size: 13px;
+        color: #fff;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    &__preview {
+        display: inline-block;
+        width: 50%;
+        vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
