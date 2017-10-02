@@ -1,6 +1,6 @@
 import { getAxios, postAxios } from "ajax"
 import { getTemplate } from "servers"
-import querystring from "querystring"
+// import querystring from "querystring"
 
 const state = {
     selectedLibrary: null,
@@ -69,28 +69,41 @@ const actions = {
     },
 
     library_changeMaterial: ({ commit, state }) => {
-        // const { selectedFile: file = {}, selectedLibrary: { id: material_id = "" } = {} } = state
-        const data = new FormData()
-        data.append("file", state.selectedFile)
-        // data.append("material_id", file)
+        // const material_id = state.selectedLibrary.id
+        // const data = new FormData()
+        // data.append("material_id", "file")
+        // data.append("file", state.selectedFile)
         // data.append("material", "state")
-        // console.log(state.selectedLibrary.id)
-        console.log(querystring.stringify({ material_id: state.selectedLibrary.id }))
+        console.log(state.selectedFile)
+        // console.log(querystring.stringify({ material_id: state.selectedLibrary.id }))
+        const data = { material_id: state.selectedLibrary.id }
+        const file = { name: state.selectedFile.name }
+        const reader = new FileReader()
 
-        postAxios(getTemplate("changeLibMaterial", "Materials"), data)
-            .then(res => {
-                console.log(res)
+        if (state.selectedFile) {
+            reader.readAsDataURL(state.selectedFile)
+        }
 
-                if (res.error) {
-                    commit("library_getError", res.error)
-                } else {
-                    postAxios(getTemplate("changeLibMaterial", "Materials"), data)
-                        .then(response => {})
-                    // commit("library_getSuccess", res.success)
-                    // setTimeout(() => { commit("library_getSuccess", "") }, 1000)
-                    // commit("library_clearStore")
-                }
-            })
+        reader.onloadend = function () {
+            file.data = reader.result
+            data.file = file
+            const str = JSON.stringify(data)
+            console.log(str)
+            postAxios(getTemplate("changeLibMaterial", "Materials"), str)
+                .then(res => {
+                    console.log(res)
+
+                    if (res.error) {
+                        commit("library_getError", res.error)
+                    } else {
+                        // postAxios(getTemplate("changeLibMaterial", "Materials"), data)
+                        //     .then(response => {})
+                        commit("library_getSuccess", res.success)
+                        setTimeout(() => { commit("library_getSuccess", "") }, 1000)
+                        commit("library_clearStore")
+                    }
+                })
+        }
     }
 }
 
